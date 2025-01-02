@@ -1,7 +1,7 @@
 body {
     display: grid;
     grid-template-columns: 300px 1fr;
-    grid-template-rows: 5rem 1fr min-content;
+    grid-template-rows: 4rem 1fr min-content;
     gap: 0px 0px;
     grid-auto-flow: row;
     grid-template-areas:
@@ -65,6 +65,8 @@ Wysiwyg editor
 
 .wysiwyg-editor {
     grid-area: wysiwyg-editor;
+    overflow-x: scroll;
+    background-color: var(--background-color);
 }
 
 .footer {
