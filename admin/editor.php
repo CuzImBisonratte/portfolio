@@ -53,16 +53,6 @@ if (!isset($_SESSION['login'])) {
             </a>
         </div>
     </div>
-    <div class="image-selector">
-        <div class="images">
-            <div class="image-container"></div>
-            <div class="image-container"></div>
-        </div>
-        <div class="upload-button">
-            <input type="file" name="image" id="image" accept="image/*">
-            <label for="image">+ Upload</label>
-        </div>
-    </div>
     <div class="wysiwyg-editor">
         <div class="portfolio-title">
         </div>
