@@ -1,3 +1,14 @@
+<?php
+
+// Check user login state
+session_start();
+if (!isset($_SESSION['login'])) {
+    header('Location: /admin/login.php');
+    die;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

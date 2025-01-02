@@ -1,0 +1,81 @@
+body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4rem 1fr min-content;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "nav"
+        "main"
+        "footer";
+    overflow: hidden;
+}
+
+.nav {
+    grid-area: nav;
+    background-color: var(--background2-color);
+}
+
+/* 
+Main
+*/
+
+main {
+    grid-area: main;
+    overflow-x: scroll;
+    display: grid;
+    place-content: center;
+    background-color: var(--background-color);
+    text-align: center;
+}
+
+main div {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    min-width: 500px;
+    background-color: var(--background3-color);
+}
+
+main span {
+    margin-top: 3rem;
+}
+
+main h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+form {
+    display: grid;
+    gap: 1rem;
+}
+
+form input {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+    display: block;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+form input[type="submit"] {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+/* 
+Footer
+*/
+
+.footer {
+    grid-area: footer;
+    background-color: var(--background2-color);
+}

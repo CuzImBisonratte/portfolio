@@ -1,5 +1,12 @@
 <?php
 
+// Check user login state
+session_start();
+if (!isset($_SESSION['login'])) {
+    header('Location: /admin/login.php');
+    die;
+}
+
 $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/res/img/logo.webp';
 $destPath = $_SERVER['DOCUMENT_ROOT'] . '/res/img/';
 
