@@ -20,7 +20,7 @@ body {
     font-family: "Ubuntu";
     scroll-behavior: smooth;
     color: var(--text-color);
-    background-color: var(--background-color);
+    background-color: var(--background2-color);
 }
 
 * {
