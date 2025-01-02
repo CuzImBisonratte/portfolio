@@ -1,0 +1,8 @@
+.portfolio-title {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 10rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}

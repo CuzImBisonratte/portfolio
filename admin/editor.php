@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link rel="stylesheet" href="/admin/css/editor.css">
+    <link rel="stylesheet" href="/css/portfolio.css">
     <link rel="stylesheet" href="/css/base.css">
 </head>
 
@@ -22,7 +23,10 @@
             <label for="image">+ Upload</label>
         </div>
     </div>
-    <div class="wysiwyg-editor"></div>
+    <div class="wysiwyg-editor">
+        <div class="portfolio-title">
+        </div>
+    </div>
     <div class="footer"></div>
 </body>
 
