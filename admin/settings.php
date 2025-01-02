@@ -7,7 +7,6 @@
     <title>Document</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
     <link rel="stylesheet" href="/admin/css/settings.css">
-    <link rel="stylesheet" href="/css/portfolio.css">
     <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/base.css">
 </head>
