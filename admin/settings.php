@@ -20,6 +20,8 @@ if (!isset($_SESSION['login'])) {
     <link rel="stylesheet" href="/admin/css/settings.css">
     <link rel="stylesheet" href="/css/fonts.css">
     <link rel="stylesheet" href="/css/base.css">
+    <link rel="icon" href="/res/img/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/res/img/favicon.ico" type="image/x-icon" />
 </head>
 
 <body>
