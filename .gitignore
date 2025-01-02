@@ -1,3 +1,4 @@
 # Exclude every image folder
 images
 res/img
+admin/php/config.php
