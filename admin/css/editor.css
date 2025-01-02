@@ -71,6 +71,67 @@ Wysiwyg editor
     background-color: var(--background-color);
 }
 
+.image-cluster-container {
+    display: grid;
+    grid-template-columns: 3rem 1fr 3rem;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "image-cluster-actions image-cluster .";
+}
+
+.image-cluster-actions {
+    grid-area: image-cluster-actions;
+    background-color: var(--background3-color);
+    margin-bottom: 1rem;
+    transform: translateX(1rem);
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.image-cluster-actions a {
+    display: grid;
+    place-content: center;
+}
+
+.image-cluster-actions a svg {
+    width: 2rem;
+    height: 2rem;
+    color: white;
+}
+
+.image-cluster-actions a:hover {
+    background-color: var(--background2-color);
+}
+
+.image-cluster {
+    grid-area: image-cluster;
+}
+
+.image-cluster img {
+    cursor: pointer !important;
+}
+
+.image-cluster img:hover {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Fixes for less width */
+
+.image-cluster {
+    width: calc(50% + 3rem) !important;
+}
+
+@media screen and (max-width: 1200px) {
+    .image-cluster {
+        width: calc(3rem + 70%) !important;
+    }
+}
+
+/* 
+Footer
+*/
+
 .footer {
     grid-area: footer;
     background-color: var(--background2-color);
