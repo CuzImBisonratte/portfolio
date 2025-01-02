@@ -6,22 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/admin/css/admin.css">
+    <link rel="stylesheet" href="/admin/css/editor.css">
     <link rel="stylesheet" href="/css/base.css">
 </head>
 
 <body>
-    <nav>
-        <div class="nav-container">
-            <a class="nav-item" href="/admin/index.php">Home</a>
-            <a class="nav-item" href="/admin/editor.php">Editor</a>
-            <a class="nav-item" href="/admin/logout.php">Logout</a>
+    <div class="nav"></div>
+    <div class="image-selector">
+        <div class="images">
+            <div class="image-container"></div>
+            <div class="image-container"></div>
         </div>
-    </nav>
-    <main>
-        <div class="image-selector"></div>
-        <div class="wysiwyg-editor"></div>
-    </main>
-    <footer></footer>
+        <div class="upload-button">
+            <input type="file" name="image" id="image" accept="image/*">
+            <label for="image">+ Upload</label>
+        </div>
+    </div>
+    <div class="wysiwyg-editor"></div>
+    <div class="footer"></div>
 </body>
 
 </html>
