@@ -1,27 +1,52 @@
-nav {
-    background-color: var(--background2-color);
-    width: 100%;
-    min-height: 4rem;
+.nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 4rem;
+    overflow: hidden;
+}
+
+.nav>* {
+    height: 4rem;
+}
+
+.nav-center {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.nav-center img {
+    height: 3rem;
+    width: 3rem;
+}
+
+.nav-left {
+    display: flex;
+    justify-content: start;
+    padding-left: 0.25rem;
+}
+
+.nav-right {
+    display: flex;
+    justify-content: end;
+    padding-right: 0.25rem;
+}
+
+.nav-right a,
+.nav-left a {
+    height: 3rem;
+    width: 3rem;
+    margin: 0.5rem 0.25rem;
+    background-color: var(--background3-color);
+    color: var(--text-color);
+    border-radius: 0.5rem;
     display: grid;
     place-content: center;
+    cursor: pointer;
 }
 
-.nav-container {
-    display: grid;
-    place-items: center;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-}
-
-.nav-item {
-    display: block;
-    background-color: var(--text-color);
-    color: var(--background2-color);
-    height: 100%;
-    padding: 1.25rem;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 1.5rem;
-    width: 100%;
-    text-align: center;
+.nav a svg {
+    height: 2.5rem;
+    width: 2.5rem;
 }
