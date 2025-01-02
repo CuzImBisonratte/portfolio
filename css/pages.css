@@ -3,6 +3,9 @@ nav {
     height: 4rem;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    position: fixed;
+    width: 100%;
+    top: 0;
 }
 
 .nav-center {
@@ -16,5 +19,5 @@ nav {
 
 .nav-center img {
     height: 3rem;
-    width: fit-content;
+    width: 3rem;
 }
