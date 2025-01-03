@@ -53,6 +53,27 @@ foreach ($_FILES['files']['name'] as $key => $name) {
             'artist' => isset($exif['Artist']) ? $exif['Artist'] : '',
             'dateTaken' => isset($exif['DateTime']) ? $exif['DateTime'] : ''
         );
+        // Save image as WEBP for faster loading with 1920x? resolution
+        $im = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
+        $img_rotate = $im->getImageOrientation();
+        $im->setImageFormat('webp');
+        $im->setImageCompressionQuality(80);
+        if ($img_rotate != 1) {
+            switch ($img_rotate) {
+                case 3:
+                    $im->rotateImage("#000", 180);
+                    break;
+                case 6:
+                    $im->rotateImage("#000", 90);
+                    break;
+                case 8:
+                    $im->rotateImage("#000", -90);
+                    break;
+            }
+        }
+        $im->resizeImage(1920, 0, Imagick::FILTER_LANCZOS, 1);
+        $im->writeImage($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.webp');
+        $im->clear();
     }
 }
 
