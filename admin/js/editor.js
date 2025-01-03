@@ -21,6 +21,14 @@ const editor = {
         });
         const numClusters = document.querySelectorAll('.image-cluster-container').length;
         for (let i = index + 1; i <= numClusters; i++) document.getElementById('cluster' + i).id = 'cluster' + (i - 1);
+        // Fix onclick actions (when image is clicked, changingImage needs to be set right)
+        for (const element of document.getElementsByClassName("image-cluster-container")) {
+            const cluster = element.id.replace(/[a-z]+/gm, "");
+            const images = element.getElementsByClassName("image-cluster")[0].getElementsByTagName("img");
+            for (let i = 0; i < images.length; i++) {
+                images[i].setAttribute("onclick", "editor.chooseImage('" + cluster + "-" + (i + 1) + "')");
+            }
+        }
         // Fix arrows
         document.getElementsByClassName('up-button')[0].classList.add('firstUpDisabled');
         document.getElementsByClassName('down-button')[numClusters - 1].classList.add('lastDownDisabled');
