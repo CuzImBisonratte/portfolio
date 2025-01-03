@@ -128,6 +128,35 @@ Wysiwyg editor
     }
 }
 
+/* Fix for portfolio data being inputs */
+
+.portfolio-name {
+    background-color: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.portfolio-name:focus {
+    outline: none;
+    border-bottom: 2px solid var(--text-color);
+}
+
+.portfolio-date {
+    background-color: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.portfolio-date:focus {
+    outline: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+}
+
 /* 
 Media Manager
 */

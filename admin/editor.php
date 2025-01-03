@@ -77,10 +77,12 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
         </div>
     </div>
     <div class="wysiwyg-editor">
-        <div class="portfolio-title">
-            <div class="portfolio-name"><?= isset($pageConfig['pageName']) ? $pageConfig['pageName'] : 'No name set!' ?></div>
-            <div class="portfolio-date"><?= isset($pageConfig['pageDate']) ? $pageConfig['pageDate'] : 'No date set!' ?></div>
-        </div>
+        <form class="portfolio-title" action="/admin/php/changePageData.php?page=<?= htmlspecialchars($_GET["page"]) ?>" method="post">
+            <input class="portfolio-name" type="text" name="pageName" value="<?= isset($pageConfig['pageName']) ? $pageConfig['pageName'] : 'No name set!' ?>" onblur="this.form.submit()">
+            <input class="portfolio-date" type="text" name="pageDate" value="<?= isset($pageConfig['pageDate']) ? $pageConfig['pageDate'] : 'No date set!' ?>" onblur="this.form.submit()">
+            <!-- Hidden submit button, so enter key can be used to submit form -->
+            <input type="submit" style="display: none">
+        </form>
         <?php
 
         // Loop through all image clusters in pageconfig
