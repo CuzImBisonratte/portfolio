@@ -171,8 +171,10 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
         </div>
     </div>
     <div class="footer"></div>
+    <script src="/admin/js/editor.js"></script>
     <script src="/admin/js/mediamanager.js"></script>
     <?php if (isset($_GET['mediamanager'])) echo '<script>mediaManager.open()</script>'; ?>
+    <?php echo "<script>const PAGE = '" . $_GET['page'] . "'</script>"; ?>
 </body>
 
 </html>
