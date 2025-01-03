@@ -150,8 +150,8 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
                 <?php
 
                 // Loop through all images in pageconfig
-                foreach ($pageConfig['images'] as $image) {
-                    echo '<div class="mediaManagerImageContainer" id="' . $image['id'] . '">';
+                foreach ($pageConfig['images'] as $key => $image) {
+                    echo '<div class="mediaManagerImageContainer" id="' . $key . '">';
                     echo '<img src="/admin/pages/' . $_GET['page'] . '/images/' . $image['src'] . '" alt="">';
                     echo '<a class="image-delete" href="javascript:mediaManager.deleteImage(\'' . $image['id'] . '\')">';
                     echo '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">';
