@@ -23,6 +23,7 @@ if (isset($_GET["delete"])) {
     for ($i = $_GET["delete"] + 1; $i < count($pageConfig['clusters']); $i++) {
         $pageConfig['clusters'][$i - 1] = $pageConfig['clusters'][$i];
     }
+    unset($pageConfig['clusters'][count($pageConfig['clusters']) - 1]);
 }
 
 if (isset($_GET["moveUp"])) {
@@ -38,6 +39,11 @@ if (isset($_GET["moveDown"])) {
     $pageConfig['clusters'][$_GET["moveDown"]] = $pageConfig['clusters'][$_GET["moveDown"] + 1];
     $pageConfig['clusters'][$_GET["moveDown"] + 1] = $temp;
 }
+
+// Re-order clusters (fix indexes being out of order)
+$tempArray = [];
+for ($i = 0; $i < count($pageConfig['clusters']); $i++) $tempArray[] = $pageConfig['clusters'][$i];
+$pageConfig['clusters'] = $tempArray;
 
 // Write new page config
 file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET['page'] . '/pageConfig.php', '<?php $pageConfig = ' . var_export($pageConfig, true) . ';');

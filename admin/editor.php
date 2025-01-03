@@ -85,12 +85,12 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
 
         // Loop through all image clusters in pageconfig
         foreach ($pageConfig['clusters'] as $index => $cluster) {
-            $isFirst = $index == 0 ? 'firstUpDisabled' : '';
-            $isLast = $index == count($pageConfig['clusters']) - 1 ? 'lastDownDisabled' : '';
+            $isFirst = $index == 0 ? 'firstUpDisabled' : 'up-button';
+            $isLast = $index == count($pageConfig['clusters']) - 1 ? 'lastDownDisabled' : 'down-button';
             $upJS = $index == 0 ? '' : 'editor.moveImageClusterUp(' . $index . ')';
             $downJS = $index == count($pageConfig['clusters']) - 1 ? '' : 'editor.moveImageClusterDown(' . $index . ')';
             echo <<<EOL
-            <div class="image-cluster-container">
+            <div class="image-cluster-container" id="cluster$index">
             <div class="image-cluster-actions">
                 <a href="javascript:editor.deleteImageCluster($index)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
