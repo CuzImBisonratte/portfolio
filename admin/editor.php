@@ -110,7 +110,7 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
             for ($i = 1; $i <= count($cluster); $i++) {
                 if (isset($cluster['i' . $i])) {
                     $img_src = str_replace(".JPG", ".webp", $pageConfig['images'][$cluster['i' . $i]]['src']);
-                    $img_path = $img_src ? '/admin/pages/' . $_GET['page'] . '/images/' . $img_src : '';
+                    $img_path = $img_src ? '/admin/pages/' . $_GET['page'] . '/images/' . $img_src : '/res/img/placeholder.webp';
                     echo '<img src="' . $img_path . '" alt="" class="i' . $i . '" onclick="editor.chooseImage(\'' . $index . '-' . $i . '\')">';
                 }
             }
