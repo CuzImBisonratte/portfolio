@@ -16,7 +16,7 @@ const editor = {
 // JavaScript is already necessary for the editor, so it's not a problem
 // 
 function changePageData() {
-    fetch('/admin/php/changePageData.php?page=<?= htmlspecialchars($_GET["page"]) ?>', {
+    fetch('/admin/php/changePageData.php?page=' + PAGE, {
         method: 'POST',
         body: new FormData(document.querySelector('.portfolio-title'))
     }).then(response => {
