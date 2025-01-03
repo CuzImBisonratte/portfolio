@@ -3,7 +3,7 @@
 // Check user login state
 session_start();
 if (!isset($_SESSION['login'])) {
-    die;
+    header('Location: /admin/login.php');
 }
 
 // Check if page exists
