@@ -48,6 +48,11 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                 </svg>
             </a>
+            <a href="javascript:editor.addCluster()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </a>
         </div>
         <div class="nav-center">
             <a href="/">
@@ -118,6 +123,124 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
             echo '</div>';
         }
         ?>
+    </div>
+    <div class="overlay addCluster" id="addCluster">
+        <div>
+            <div onclick="editor.addClusterElement('l')">
+                <div class="l">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('le')">
+                <div class="le">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('lee')">
+                <div class="lee">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('p')">
+                <div class="p">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('s')">
+                <div class="s">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('ll')">
+                <div class="ll">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('pp')">
+                <div class="pp">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('ss')">
+                <div class="ss">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('sp')">
+                <div class="sp">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('ps')">
+                <div class="ps">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('lll')">
+                <div class="lll">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('ppp')">
+                <div class="ppp">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('sss')">
+                <div class="sss">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('pll')">
+                <div class="pll">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('llp')">
+                <div class="llp">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('ssss')">
+                <div class="ssss">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                    <div class="addClusterPlaceholderImage i4"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('plpl')">
+                <div class="plpl">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                    <div class="addClusterPlaceholderImage i4"></div>
+                </div>
+            </div>
+            <div onclick="editor.addClusterElement('lplp')">
+                <div class="lplp">
+                    <div class="addClusterPlaceholderImage i1"></div>
+                    <div class="addClusterPlaceholderImage i2"></div>
+                    <div class="addClusterPlaceholderImage i3"></div>
+                    <div class="addClusterPlaceholderImage i4"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="overlay mediamanager" id="mediamanager">
         <div>

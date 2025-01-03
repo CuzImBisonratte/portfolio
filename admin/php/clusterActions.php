@@ -47,6 +47,16 @@ if (isset($_GET["imgchange"])) {
     $pageConfig['clusters'][$cluster]["i" . $image] = $newImage;
 }
 
+if (isset($_GET["add"])) {
+    $type = $_GET["add"];
+    $img_num = strlen(str_replace('e', '', $type));
+    $newCluster = array('type' => $type);
+    for ($i = 1; $i <= $img_num; $i++) {
+        $newCluster['i' . $i] = '';
+    }
+    $pageConfig['clusters'][] = $newCluster;
+}
+
 // Re-order clusters (fix indexes being out of order)
 $tempArray = [];
 for ($i = 0; $i < count($pageConfig['clusters']); $i++) $tempArray[] = $pageConfig['clusters'][$i];

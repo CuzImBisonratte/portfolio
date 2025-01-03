@@ -107,83 +107,83 @@
 }
 
 .ll {
-    grid-template-columns: 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr;
     grid-template-areas: "i1 . i2";
     aspect-ratio: 3;
 }
 
 .pp {
-    grid-template-columns: 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr;
     grid-template-areas: "i1 . i2";
     aspect-ratio: 3/2;
 }
 
 .ss {
-    grid-template-columns: 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr;
     grid-template-areas: "i1 . i2";
     aspect-ratio: 2;
 }
 
 .sp {
-    grid-template-columns: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1 i1 i1 . i2";
     aspect-ratio: 3/2;
 }
 
 .ps {
-    grid-template-columns: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1. i2 i2 i2";
     aspect-ratio: 3/2;
 }
 
 .lll {
-    grid-template-columns: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1 . i2 . i3";
     aspect-ratio: 9/2;
 }
 
 .ppp {
-    grid-template-columns: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1 . i2 . i3";
     aspect-ratio: 2;
 }
 
 .sss {
-    grid-template-columns: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1 . i2 . i3";
     aspect-ratio: 3/1;
 }
 
 .pll {
-    grid-template-columns: 1fr 1rem 1fr;
-    grid-template-rows: 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr;
+    grid-template-rows: 1fr 1em 1fr;
     grid-template-areas: "i1 . i2" "i1 . ." "i1 . i3";
     aspect-ratio: 3/2;
 }
 
 .llp {
-    grid-template-columns: 1fr 1rem 1fr;
-    grid-template-rows: 1fr 1rem 1fr;
-    grid-template-areas: "i1 . i2" ". . i2" "i1 . i2";
+    grid-template-columns: 1fr 1em 1fr;
+    grid-template-rows: 1fr 1em 1fr;
+    grid-template-areas: "i1 . i2" ". . i2" "i3 . i2";
     aspect-ratio: 3/2;
 }
 
 .ssss {
-    grid-template-columns: 1fr 1rem 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1 . i2 . i3 . i4";
     aspect-ratio: 4/1;
 }
 
 .plpl {
-    grid-template-columns: 1fr 1rem 1fr;
-    grid-template-rows: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr;
+    grid-template-rows: 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1 . i3" "i1 . ." "i1 . i4" ". . i4" "i2 . i4";
     aspect-ratio: 1;
 }
 
 .lplp {
-    grid-template-columns: 1fr 1rem 1fr;
-    grid-template-rows: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-columns: 1fr 1em 1fr;
+    grid-template-rows: 1fr 1em 1fr 1em 1fr;
     grid-template-areas: "i1 . i2" ". . i2" "i3 . i2" "i3 . ." "i3 . i4";
     aspect-ratio: 1;
 }

@@ -315,6 +315,75 @@ Media Manager
 }
 
 /* 
+addCluster overlay
+*/
+.addCluster {
+    /* display: grid; */
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    place-content: center;
+}
+
+.addCluster>div {
+    background-color: var(--background-color);
+    min-width: 60dvw;
+    max-width: 50rem;
+    min-height: 60dvh;
+    max-height: 80dvh;
+    z-index: 1000;
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.addCluster>div>div {
+    background-color: var(--background3-color);
+    display: grid;
+    place-items: center;
+    border-radius: 0.5rem;
+}
+
+.addCluster>div>div>div {
+    background-color: var(--background2-color);
+    border-radius: 0.5rem;
+    display: grid;
+    width: 90%;
+    max-height: 90%;
+    font-size: 0.25rem;
+}
+
+.addClusterPlaceholderImage {
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.5rem;
+}
+
+.addClusterPlaceholderImage.i1 {
+    background-color: #4d8b31;
+}
+
+.addClusterPlaceholderImage.i2 {
+    background-color: #ffc800;
+}
+
+.addClusterPlaceholderImage.i3 {
+    background-color: #ff8427;
+}
+
+.addClusterPlaceholderImage.i4 {
+    background-color: #50a0c0;
+}
+
+/* 
 Media manager upload animation
 Original source (edited): https://codepen.io/CodeArtisT75/pen/QWLQwYL
 */
