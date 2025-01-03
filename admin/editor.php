@@ -124,7 +124,7 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
             <nav>
                 <div class="nav-left">
                     <form action="/admin/php/mediamanagerupload.php?page=<?= htmlspecialchars($_GET["page"]) ?>" method="post" enctype="multipart/form-data">
-                        <input type="file" name="files[]" id="file" accept="image/*" style="display: none" multiple onchange="this.form.submit()">
+                        <input type="file" name="files[]" id="file" accept="image/*" style="display: none" multiple onchange="mediaManager.submitUpload(this);" max="<?= ini_get('max_file_uploads'); ?>">
                         <label for="file">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
@@ -167,11 +167,39 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
             </main>
         </div>
     </div>
+    <div class="overlay upload-spinner" id="upload-spinner">
+        <h1>
+            Images are Uploading,<br>
+            Please Wait...
+        </h1>
+        <div class="spinner-square">
+            <div class="square-1 square"></div>
+            <div class="square-2 square"></div>
+            <div class="square-3 square"></div>
+            <div class="square-4 square"></div>
+        </div>
+    </div>
     <div class="footer"></div>
     <script src="/admin/js/editor.js"></script>
     <script src="/admin/js/mediamanager.js"></script>
     <?php if (isset($_GET['mediamanager'])) echo '<script>mediaManager.open()</script>'; ?>
-    <?php echo "<script>const PAGE = '" . $_GET['page'] . "'</script>"; ?>
+    <script>
+        <?php
+        echo "const PAGE = '" . $pageConfig['pageName'] . "';";
+        echo "const MAX_UPLOAD_SIZE = " . min(convertToBytes(ini_get('upload_max_filesize')), convertToBytes(ini_get('post_max_size'))) . ";";
+        echo "const MAX_UPLOAD_FILES = " . ini_get('max_file_uploads') . ";";
+
+        function convertToBytes($size)
+        {
+            $unit = strtolower(substr($size, -1));
+            $size = (int) $size;
+            if ($unit == 'k') $size *= 1024;
+            if ($unit == 'm') $size *= 1024 * 1024;
+            if ($unit == 'g') $size *= 1024 * 1024 * 1024;
+            return $size;
+        }
+        ?>
+    </script>
 </body>
 
 </html>
