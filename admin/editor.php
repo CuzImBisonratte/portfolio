@@ -77,11 +77,9 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
         </div>
     </div>
     <div class="wysiwyg-editor">
-        <form class="portfolio-title" action="/admin/php/changePageData.php?page=<?= htmlspecialchars($_GET["page"]) ?>" method="post">
+        <form class="portfolio-title" action="javascript:changePageData()">
             <input class="portfolio-name" type="text" name="pageName" value="<?= isset($pageConfig['pageName']) ? $pageConfig['pageName'] : 'No name set!' ?>" onblur="this.form.submit()">
             <input class="portfolio-date" type="text" name="pageDate" value="<?= isset($pageConfig['pageDate']) ? $pageConfig['pageDate'] : 'No date set!' ?>" onblur="this.form.submit()">
-            <!-- Hidden submit button, so enter key can be used to submit form -->
-            <input type="submit" style="display: none">
         </form>
         <?php
 
