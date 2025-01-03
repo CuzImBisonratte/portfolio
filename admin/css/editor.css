@@ -253,6 +253,12 @@ Media Manager
     aspect-ratio: 1;
 }
 
+.lastDownDisabled,
+.firstUpDisabled {
+    filter: opacity(0.5);
+    cursor: not-allowed;
+}
+
 .image-info {
     top: 0;
     border-bottom-left-radius: 1rem;
