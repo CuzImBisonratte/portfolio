@@ -78,6 +78,8 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
     </div>
     <div class="wysiwyg-editor">
         <div class="portfolio-title">
+            <div class="portfolio-name"><?= isset($pageConfig['pageName']) ? $pageConfig['pageName'] : 'No name set!' ?></div>
+            <div class="portfolio-date"><?= isset($pageConfig['pageDate']) ? $pageConfig['pageDate'] : 'No date set!' ?></div>
         </div>
         <?php
 
