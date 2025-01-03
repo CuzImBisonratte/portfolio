@@ -129,6 +129,146 @@ Wysiwyg editor
 }
 
 /* 
+Media Manager
+*/
+
+.mediamanager {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: hidden;
+    place-content: center;
+}
+
+.mediamanager>div {
+    background-color: var(--background3-color);
+    min-width: 60dvw;
+    max-width: 50rem;
+    min-height: 60dvh;
+    max-height: 80dvh;
+    z-index: 1000;
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4em 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "nav"
+        "main";
+    padding: 0.5rem;
+    overflow: hidden;
+}
+
+.mediamanager nav {
+    grid-area: nav;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "nav-left nav-center nav-right";
+}
+
+.mediamanager .nav-left {
+    grid-area: nav-left;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.mediamanager .nav-center {
+    grid-area: nav-center;
+    display: flex;
+    justify-content: center;
+}
+
+.mediamanager .nav-right {
+    grid-area: nav-right;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mediamanager nav a,
+.mediamanager nav form,
+.mediamanager nav form label {
+    display: grid;
+    place-content: center;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    margin: 0.5rem 0.25rem;
+}
+
+.mediamanager nav a svg,
+.mediamanager nav form svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--text-color);
+}
+
+.mediamanager nav a:hover svg {
+    color: var(--background-color);
+    fill: var(--text-color);
+    scale: 1.1;
+}
+
+.mediamanager main {
+    grid-area: main;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    height: fit-content;
+    max-height: 100%;
+    padding-top: 0.5rem;
+    overflow: scroll;
+}
+
+.mediaManagerImageContainer {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: var(--background-color);
+    aspect-ratio: 1;
+    position: relative;
+}
+
+.mediaManagerImageContainer img {
+    grid-area: image;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mediaManagerImageContainer a {
+    position: absolute;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0.25rem;
+    height: 3rem;
+    width: 3rem;
+    aspect-ratio: 1;
+}
+
+.image-info {
+    top: 0;
+    border-bottom-left-radius: 1rem;
+}
+
+.image-delete {
+    bottom: 0;
+    border-top-left-radius: 1rem;
+}
+
+.mediaManagerImageContainer a svg {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/* 
 Footer
 */
 
