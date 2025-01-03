@@ -1,6 +1,8 @@
 const mediaManager = {
     element: document.getElementById('mediamanager'),
-    open: () => {
+    changingImage: null,
+    open: (forSelection) => {
+        if (forSelection) mediaManager.element.classList.add('forSelection');
         mediaManager.element.style.display = 'grid';
         mediaManager.element.addEventListener("click", (e) => {
             if (e.target === mediaManager.element) {
@@ -44,5 +46,28 @@ const mediaManager = {
     },
     close: () => {
         mediaManager.element.style.display = 'none';
+        mediaManager.element.classList.remove('forSelection');
+    },
+    click: (img) => {
+        if (!mediaManager.changingImage) return;
+        console.log('Changing image to: ', img);
+        const cluster = mediaManager.changingImage.toString().split('-')[0];
+        const image = mediaManager.changingImage.toString().split('-')[1];
+        document.getElementById("cluster" + cluster).getElementsByClassName('i' + image)[0].src = '/admin/pages/' + PAGE + '/images/' + img + ".webp";
+        mediaManager.close();
+        mediaManager.changingImage = null;
+        const imgChange = cluster + '-' + image + '-' + img;
+        // Send change to backend
+        fetch(`/admin/php/clusterActions.php?page=${PAGE}&imgchange=${imgChange}`, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                console.log('Image changed successfully');
+            } else {
+                console.error('Failed to change image');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     }
 };

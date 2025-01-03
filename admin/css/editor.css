@@ -303,6 +303,16 @@ Media Manager
     height: 2.5rem;
 }
 
+/* If media manager is only open for image selection, dont show actions */
+.forSelection .image-delete,
+.forSelection .image-info {
+    display: none;
+}
+
+.forSelection img {
+    cursor: pointer;
+}
+
 /* 
 Media manager upload animation
 Original source (edited): https://codepen.io/CodeArtisT75/pen/QWLQwYL

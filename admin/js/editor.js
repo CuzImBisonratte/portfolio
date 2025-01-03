@@ -101,6 +101,10 @@ const editor = {
         }
         nextCluster.getElementsByClassName('down-button')[0].href = 'javascript:editor.moveImageClusterDown(' + index + ')';
     },
+    chooseImage: (image) => {
+        mediaManager.changingImage = image;
+        mediaManager.open(true);
+    }
 };
 
 function changePageData() {
