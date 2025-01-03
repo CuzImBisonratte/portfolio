@@ -40,6 +40,13 @@ if (isset($_GET["moveDown"])) {
     $pageConfig['clusters'][$_GET["moveDown"] + 1] = $temp;
 }
 
+if (isset($_GET["imgchange"])) {
+    $cluster = explode("-", $_GET["imgchange"])[0];
+    $image = explode("-", $_GET["imgchange"])[1];
+    $newImage = explode("-", $_GET["imgchange"])[2];
+    $pageConfig['clusters'][$cluster]["i" . $image] = $newImage;
+}
+
 // Re-order clusters (fix indexes being out of order)
 $tempArray = [];
 for ($i = 0; $i < count($pageConfig['clusters']); $i++) $tempArray[] = $pageConfig['clusters'][$i];
