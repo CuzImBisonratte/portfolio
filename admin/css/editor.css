@@ -311,6 +311,7 @@ Media Manager
 
 .forSelection img {
     cursor: pointer;
+    object-fit: contain;
 }
 
 /* 
