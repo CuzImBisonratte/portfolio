@@ -69,5 +69,24 @@ const mediaManager = {
         }).catch(error => {
             console.error('Error:', error);
         });
+    },
+    deleteImage: (img) => {
+        if (!confirm('Are you sure you want to delete this image?')) return;
+        document.getElementById(img).remove();
+        let url = '/admin/pages/' + PAGE + '/images/' + img + '.webp';
+        // Delete all img elements with the same src
+        let imgs = document.getElementsByTagName('img');
+        for (let i = 0; i < imgs.length; i++) if (imgs[i].getAttribute('src') === url) imgs[i].src = '';
+        fetch(`/admin/php/mediaManagerDelete.php?page=${PAGE}&img=${img}`, {
+            method: 'POST'
+        }).then(response => {
+            if (response.ok) {
+                console.log('Image deleted successfully');
+            } else {
+                console.error('Failed to delete image');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     }
 };
