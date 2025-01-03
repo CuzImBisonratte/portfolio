@@ -64,9 +64,3 @@ $pageConfig['clusters'] = $tempArray;
 
 // Write new page config
 file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET['page'] . '/pageConfig.php', '<?php $pageConfig = ' . var_export($pageConfig, true) . ';');
-
-// Wait for file to be written
-sleep(3);
-
-// Redirect to editor
-header('Location: /admin/editor.php?page=' . $_GET['page']);
