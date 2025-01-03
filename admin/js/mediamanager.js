@@ -4,11 +4,6 @@ const mediaManager = {
     open: (forSelection) => {
         if (forSelection) mediaManager.element.classList.add('forSelection');
         mediaManager.element.style.display = 'grid';
-        mediaManager.element.addEventListener("click", (e) => {
-            if (e.target === mediaManager.element) {
-                mediaManager.close();
-            }
-        });
     },
     submitUpload: (f) => {
         document.getElementById('upload-spinner').style.display = 'grid';
@@ -90,3 +85,9 @@ const mediaManager = {
         });
     }
 };
+
+mediaManager.element.addEventListener("click", (e) => {
+    if (e.target === mediaManager.element) {
+        mediaManager.close();
+    }
+});
