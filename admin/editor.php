@@ -8,10 +8,10 @@ if (!isset($_SESSION['login'])) {
 
 // Check if page exists
 if (!isset($_GET['page'])) {
-    die;
+    header('Location: /admin/');
 }
 if (!file_exists('pages/' . $_GET['page'] . '/pageConfig.php')) {
-    die;
+    header('Location: /admin/');
 }
 
 // Load page config
@@ -123,7 +123,7 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
         <div>
             <nav>
                 <div class="nav-left">
-                    <form action="/admin/php/mediamanagerupload.php?page=<?= htmlspecialchars($_GET["page"]) ?>" method="post" enctype="multipart/form-data">
+                    <form action="" method="post" enctype="multipart/form-data">
                         <input type="file" name="files[]" id="file" accept="image/*" style="display: none" multiple onchange="mediaManager.submitUpload(this);" max="<?= ini_get('max_file_uploads'); ?>">
                         <label for="file">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -185,7 +185,7 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
     <?php if (isset($_GET['mediamanager'])) echo '<script>mediaManager.open()</script>'; ?>
     <script>
         <?php
-        echo "const PAGE = '" . $pageConfig['pageName'] . "';";
+        echo "const PAGE = '" . $_GET['page'] . "';";
         echo "const MAX_UPLOAD_SIZE = " . min(convertToBytes(ini_get('upload_max_filesize')), convertToBytes(ini_get('post_max_size'))) . ";";
         echo "const MAX_UPLOAD_FILES = " . ini_get('max_file_uploads') . ";";
 
