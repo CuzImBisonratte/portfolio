@@ -22,8 +22,8 @@ const editor = {
         const numClusters = document.querySelectorAll('.image-cluster-container').length;
         for (let i = index + 1; i <= numClusters; i++) document.getElementById('cluster' + i).id = 'cluster' + (i - 1);
         // Fix arrows
-        document.getElementById("cluster0").getElementsByClassName('up-button')[0].classList.add('firstUpDisabled');
-        document.getElementById("cluster" + numClusters).getElementsByClassName('down-button')[0].classList.add('lastDownDisabled');
+        document.getElementsByClassName('up-button')[0].classList.add('firstUpDisabled');
+        document.getElementsByClassName('down-button')[numClusters - 1].classList.add('lastDownDisabled');
     },
     moveImageClusterUp: (index) => {
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&moveUp=${index}`, {
