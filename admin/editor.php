@@ -327,6 +327,12 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
         }
         ?>
     </script>
+    <style>
+        .waiting *,
+        .waiting img {
+            cursor: wait !important;
+        }
+    </style>
 </body>
 
 </html>

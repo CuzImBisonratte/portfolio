@@ -1,13 +1,45 @@
+lastCall = 0;
+lastCallTimeout = 3000;
+
+// Check on page unload
+window.addEventListener('beforeunload', function (e) {
+    let currentTime = new Date().getTime();
+    let timeDiff = currentTime - lastCall;
+
+    // If the last call was made less than twice the timeout duration ago
+    if (timeDiff < 2 * lastCallTimeout) {
+        // Show alert to the user (can be customized)
+        // alert("You have pending actions that have not yet been completed.");
+
+        // Optionally, you can prevent the unload with a custom message
+        e.returnValue = 'Are you sure you want to leave?';
+        e.preventDefault();
+    }
+});
+
+window.setInterval(() => {
+    if (new Date().getTime() - lastCall < lastCallTimeout) {
+        // Add the "waiting" class to the body to change cursor globally
+        document.body.classList.add('waiting');
+    } else {
+        // Remove the "waiting" class to revert cursor to default
+        // document.body.classList.remove('waiting');
+    }
+}, 100);
+
 // 
 // All following functions are implemented in JavaScript to avoid page reloads which would need more time
 // They are also implemented in PHP, which is used to save the changes to the data files
 // JavaScript is already necessary for the editor, so it's not a problem
 // 
 const editor = {
-    deleteImageCluster: (index) => {
+    deleteImageCluster: async (index) => {
         const confirmation = confirm('Are you sure you want to delete this image cluster?');
         if (!confirmation) return;
         document.getElementById('cluster' + index).remove();
+        // Wait until last call is at least 3s ago
+        while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
+        lastCall = new Date().getTime();
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&delete=${index}`, {
             method: 'POST'
         }).then(response => {
@@ -33,7 +65,10 @@ const editor = {
         document.getElementsByClassName('up-button')[0].classList.add('firstUpDisabled');
         document.getElementsByClassName('down-button')[numClusters - 1].classList.add('lastDownDisabled');
     },
-    moveImageClusterUp: (index) => {
+    moveImageClusterUp: async (index) => {
+        // Wait until last call is at least 3s ago
+        while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
+        lastCall = new Date().getTime();
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&moveUp=${index}`, {
             method: 'POST'
         }).then(response => {
@@ -70,7 +105,10 @@ const editor = {
         cluster.getElementsByClassName('down-button')[0].href = 'javascript:editor.moveImageClusterDown(' + (index - 1) + ')';
         previousCluster.getElementsByClassName('down-button')[0].href = 'javascript:editor.moveImageClusterDown(' + index + ')';
     },
-    moveImageClusterDown: (index) => {
+    moveImageClusterDown: async (index) => {
+        // Wait until last call is at least 3s ago
+        while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
+        lastCall = new Date().getTime();
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&moveDown=${index}`, {
             method: 'POST'
         }).then(response => {
@@ -116,7 +154,7 @@ const editor = {
     addCluster: () => {
         document.getElementById('addCluster').style.display = 'grid';
     },
-    addClusterElement: (type) => {
+    addClusterElement: async (type) => {
         document.getElementById('addCluster').style.display = 'none';
         // Enable last downdisable
         document.getElementsByClassName("lastDownDisabled")[0].classList.remove("lastDownDisabled");
@@ -147,6 +185,9 @@ const editor = {
         textHTML += '</div>';
         cluster.innerHTML = textHTML;
         document.getElementsByClassName('wysiwyg-editor')[0].appendChild(cluster);
+        // Wait until last call is at least 3s ago
+        while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
+        lastCall = new Date().getTime();
         // From here on, the new cluster is added to the backend
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&add=${type}`, {
             method: 'POST'
@@ -158,7 +199,10 @@ const editor = {
     }
 };
 
-function changePageData() {
+async function changePageData() {
+    // Wait until last call is at least 3s ago
+    while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
+    lastCall = new Date().getTime();
     fetch('/admin/php/changePageData.php?page=' + PAGE, {
         method: 'POST',
         body: new FormData(document.querySelector('.portfolio-title'))
