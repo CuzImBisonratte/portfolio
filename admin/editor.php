@@ -4,14 +4,17 @@
 session_start();
 if (!isset($_SESSION['login'])) {
     header('Location: /admin/login.php');
+    die;
 }
 
 // Check if page exists
 if (!isset($_GET['page'])) {
     header('Location: /admin/');
+    die;
 }
 if (!file_exists('pages/' . $_GET['page'] . '/pageConfig.php')) {
     header('Location: /admin/');
+    die;
 }
 
 // Load page config
