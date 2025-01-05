@@ -19,9 +19,8 @@ const mediaManager = {
         for (let i = 0; i < files.length; i++) {
             const formData = new FormData();
             formData.append('file', files[i]);
-            // Wait until last call is at least 3s ago
+            // Wait until last call is at least 3s ago - DO NOT SET lastCall, as the page reloads itself
             while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
-            lastCall = new Date().getTime();
             fetch(`/admin/php/mediaManagerUpload.php?page=${PAGE}`, {
                 method: 'POST',
                 body: formData
