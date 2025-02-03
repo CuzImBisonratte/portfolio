@@ -8,22 +8,21 @@ if (!isset($_SESSION['login'])) {
 }
 
 // Include config file
-include_once $_SERVER['DOCUMENT_ROOT'] . '/admin/php/config.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
 // Check if file(s) were uploaded
-if (!isset($_FILES['file'])) {
-    header('Location: /admin/editore.php');
-    die;
-}
+if (!isset($_FILES['file'])) die(1);
 
 // Check if page is set
-if (!isset($_GET['page'])) {
-    header('Location: /admin/editora.php');
+if (!isset($_GET['page'])) die(2);
+$page = $_GET['page'];
+
+// DB connection
+$con = mysqli_connect($config['db']['host'], $config['db']['username'], $config['db']['password'], $config['db']['db']);
+if (mysqli_connect_errno()) {
+    echo 'Failed to connect to MySQL: ' . mysqli_connect_error();
+    die;
 }
-
-
-// Create config
-$imgConfig = array();
 
 // Check if file is an image
 if (getimagesize($_FILES['file']['tmp_name'])) {
@@ -39,6 +38,7 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
     if (isset($exif['FNumber']) && strpos($exif['FNumber'], '/') !== false) $exif['FNumber'] = explode('/', $exif['FNumber'])[0] / explode('/', $exif['FNumber'])[1];
     if (isset($exif['FocalLength']) && strpos($exif['FocalLength'], '/') !== false) $exif['FocalLength'] = explode('/', $exif['FocalLength'])[0] / explode('/', $exif['FocalLength'])[1];
     if (isset($exif['ExposureTime']) && strpos($exif['ExposureTime'], '/') !== false) $exif['ExposureTime'] = '1/' . explode('/', $exif['ExposureTime'])[1] / explode('/', $exif['ExposureTime'])[0];
+
     // Generate camera info string
     $camInfoString = '';
     $camInfoString .= isset($exif['Model']) ? $exif['Model'] : "";
@@ -46,14 +46,7 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
     $camInfoString .= isset($exif['FNumber']) ? ", " . (strpos($exif['FNumber'], 'f') === false ? 'f/' . $exif['FNumber'] : $exif['FNumber']) : "";
     $camInfoString .= isset($exif['ExposureTime']) ? ", " . $exif['ExposureTime'] . (strpos($exif['ExposureTime'], 's') === false ? 's' : '') : "";
     $camInfoString .= isset($exif['ISOSpeedRatings']) ? ", ISO " . $exif['ISOSpeedRatings'] : "";
-    // Add image to page config
-    $imgConfig[$id] = array(
-        'src' => $id . '.' . pathinfo($name, PATHINFO_EXTENSION),
-        'alt' => '',
-        'camInfo' => $camInfoString,
-        'artist' => isset($exif['Artist']) ? $exif['Artist'] : '',
-        'dateTaken' => isset($exif['DateTime']) ? $exif['DateTime'] : ''
-    );
+
     // Save image as WEBP for faster loading with 1920x? resolution
     $im = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
     $img_rotate = $im->getImageOrientation();
@@ -76,8 +69,14 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
     $im->writeImage($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.webp');
     $im->clear();
 
-    // Write imgConfig
-    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET['page'] . '/images/' . $id . '.php', '<?php return ' . var_export($imgConfig[$id], true) . ';');
+    // Insert image into database
+    $insert_source = $id . '.' . pathinfo($name, PATHINFO_EXTENSION);
+    $insert_artist = isset($exif['Artist']) ? $exif['Artist'] : '';
+    $insert_time = isset($exif['DateTime']) ? $exif['DateTime'] : '';
+    $stmt = $con->prepare("INSERT INTO `image`(`source`, `page_id`, `alt`, `camera`, `artist`, `time`) VALUES (?, ?, '', ?, ?, ?)");
+    $stmt->bind_param('sssss', $insert_source, $page, $camInfoString, $insert_artist, $insert_time);
+    $stmt->execute();
+    $stmt->close();
 
     // Sleep to wait for all processes to finish
     sleep(1);
