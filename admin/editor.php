@@ -7,18 +7,56 @@ if (!isset($_SESSION['login'])) {
     die;
 }
 
-// Check if page exists
-if (!isset($_GET['page'])) {
-    header('Location: /admin/');
-    die;
-}
-if (!file_exists('pages/' . $_GET['page'] . '/pageConfig.php')) {
-    header('Location: /admin/');
-    die;
-}
+// Load config
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
-// Load page config
-require_once('pages/' . $_GET['page'] . '/pageConfig.php');
+// DB connection
+$con = new mysqli($CONFIG['db']['host'], $CONFIG['db']['user'], $CONFIG['db']['password'], $CONFIG['db']['database']);
+if (mysqli_errno($con)) die('Failed to connect to database');
+
+// Load page data
+$page = [];
+$clusters = [];
+$images = [];
+$views = [];
+$stmt = $con->prepare("SELECT title, subtitle, id FROM page WHERE id = ?");
+$stmt->bind_param('s', $_GET['page']);
+$stmt->execute();
+$stmt->bind_result($page['title'], $page['subtitle'], $page['id']); #
+$stmt->fetch();
+if ($page['id'] == null) {
+    $stmt->close();
+    header('Location: /admin/');
+    die;
+}
+$stmt->close();
+$stmt = $con->prepare("SELECT id, type, position FROM cluster WHERE page_id = ?");
+$stmt->bind_param('s', $page['id']);
+$stmt->execute();
+$stmt->bind_result($cluster['id'], $cluster['type'], $cluster['position']);
+while ($stmt->fetch()) {
+    $clusters[$cluster['position']] = $cluster['id'];
+}
+$stmt->close();
+$stmt = $con->prepare("SELECT id, alt, camera, artist, time FROM image WHERE page_id = ?");
+$stmt->bind_param('s', $page['id']);
+$stmt->execute();
+$stmt->bind_result($image['id'], $image['alt'], $image['camera'], $image['artist'], $image['time']);
+while ($stmt->fetch()) {
+    $images[$image['id']] = $image;
+}
+$stmt->close();
+$stmt = $con->prepare("SELECT cluster_id, image_id, position FROM view WHERE cluster_id = ?");
+foreach ($clusters as $cluster) {
+    $stmt->bind_param('s', $cluster);
+    $stmt->execute();
+    $stmt->bind_result($view['cluster_id'], $view['image_id'], $view['position']);
+    while ($stmt->fetch()) {
+        $views[$view['cluster_id']][$view['position']] = $view['image_id'];
+    }
+}
+$stmt->close();
+
 
 ?>
 
@@ -83,8 +121,8 @@ require_once('pages/' . $_GET['page'] . '/pageConfig.php');
     </div>
     <div class="wysiwyg-editor">
         <form class="portfolio-title" action="javascript:changePageData()">
-            <input class="portfolio-name" type="text" name="pageName" value="<?= isset($pageConfig['pageName']) ? $pageConfig['pageName'] : 'No name set!' ?>" onblur="this.form.submit()">
-            <input class="portfolio-date" type="text" name="pageDate" value="<?= isset($pageConfig['pageDate']) ? $pageConfig['pageDate'] : 'No date set!' ?>" onblur="this.form.submit()">
+            <input class="portfolio-name" type="text" name="pageName" value="<?= isset($page['title']) ? $page['title'] : 'No title set!' ?>" onblur="this.form.submit()">
+            <input class="portfolio-date" type="text" name="pageDate" value="<?= isset($page['subtitle']) ? $page['subtitle'] : 'No subtitle set!' ?>" onblur="this.form.submit()">
         </form>
         <?php
 
