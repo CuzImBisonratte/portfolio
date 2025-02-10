@@ -54,7 +54,7 @@ if (!isset($_POST['password'])) {
 }
 
 // Check if password is correct
-include_once $_SERVER['DOCUMENT_ROOT'] . '/admin/php/config.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 if (password_verify($_POST['password'], $CONFIG['password'])) {
 	$_SESSION['login'] = true;
 	header('Location: /admin/');
