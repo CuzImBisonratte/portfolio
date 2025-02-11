@@ -12,18 +12,39 @@ if (!isset($_GET['page'])) {
     header('Location: /admin/editor.php');
 }
 
-// Load page config
-include_once $_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET['page'] . '/pageConfig.php';
+// Include config file
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
+
+// DB connection
+$con = mysqli_connect($CONFIG['db']['host'], $CONFIG['db']['user'], $CONFIG['db']['password'], $CONFIG['db']['database']);
+if (mysqli_connect_errno()) {
+    echo 'Failed to connect to MySQL: ' . mysqli_connect_error();
+    die;
+}
+
+$cluster = [];
+if (isset($_GET["delete"]) || isset($_GET["moveUp"]) || isset($_GET["moveDown"])) {
+    // query current cluster
+    $clusterID = $_GET['delete'] || $_GET['moveUp'] || $_GET['moveDown'];
+    $stmt = $con->prepare('SELECT id,page_id,type,position FROM cluster WHERE page_id = ? AND position = ? ORDER BY position ASC');
+    $stmt->bind_param('ss', $_GET['page'], $clusterID);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($cluster['id'], $cluster['page_id'], $cluster['type'], $cluster['position']);
+    $stmt->fetch();
+    $stmt->close();
+}
 
 // Check for actions
 if (isset($_GET["delete"])) {
-    // Delete cluster
-    unset($pageConfig['clusters'][$_GET["delete"]]);
-    // Move all clusters with higher index one down
-    for ($i = $_GET["delete"] + 1; $i < count($pageConfig['clusters']); $i++) {
-        $pageConfig['clusters'][$i - 1] = $pageConfig['clusters'][$i];
-    }
-    unset($pageConfig['clusters'][count($pageConfig['clusters']) - 1]);
+    $stmt = $con->prepare('DELETE FROM cluster WHERE page_id = ? AND id = ?');
+    $stmt->bind_param('ss', $_GET['page'], $cluster['id']);
+    $stmt->execute();
+    $stmt->close();
+    $stmt = $con->prepare('UPDATE cluster SET position = position - 1 WHERE position > ? AND page_id = ?');
+    $stmt->bind_param('ss', $cluster['position'], $_GET['page']);
+    $stmt->execute();
+    $stmt->close();
 }
 
 if (isset($_GET["moveUp"])) {

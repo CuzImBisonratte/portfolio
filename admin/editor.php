@@ -57,6 +57,9 @@ foreach ($clusters as $cluster) {
 }
 $stmt->close();
 
+// Fix sorting
+array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
+
 ?>
 
 <!DOCTYPE html>
