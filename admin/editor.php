@@ -130,10 +130,10 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
 
         // Loop through all image clusters in pageconfig
         foreach ($clusters as $index => $cluster) {
-            $isFirst = $index == 0 ? 'firstUpDisabled' : '';
-            $isLast = $index == count($clusters) - 1 ? 'lastDownDisabled' : '';
-            $upJS = $index == 0 ? '' : 'editor.moveImageClusterUp(\'' . $index . '\')';
-            $downJS = $index == count($clusters) - 1 ? '' : 'editor.moveImageClusterDown(\'' . $index . '\')';
+            $isFirst = $cluster['position'] == 1 ? 'firstUpDisabled' : '';
+            $isLast = $cluster['position'] == count($clusters) ? 'lastDownDisabled' : '';
+            $upJS = $cluster['position'] == 1 ? '' : 'editor.moveImageClusterUp(\'' . $index . '\')';
+            $downJS = $cluster['position'] == count($clusters) ? '' : 'editor.moveImageClusterDown(\'' . $index . '\')';
             echo <<<EOL
             <div class="image-cluster-container" id="cluster$index">
             <div class="image-cluster-actions">
