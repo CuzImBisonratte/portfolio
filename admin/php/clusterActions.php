@@ -109,9 +109,12 @@ if (isset($_GET["moveDown"])) {
 
 if (isset($_GET["imgchange"])) {
     $cluster = explode("-", $_GET["imgchange"])[0];
-    $image = explode("-", $_GET["imgchange"])[1];
+    $position = explode("-", $_GET["imgchange"])[1];
     $newImage = explode("-", $_GET["imgchange"])[2];
-    $pageConfig['clusters'][$cluster]["i" . $image] = $newImage;
+    $stmt = $con->prepare('INSERT into view (cluster_id, image_id, position) VALUES (?,?,?) ON DUPLICATE KEY UPDATE image_id = ?, position = ?');
+    $stmt->bind_param('sssss', $cluster, $newImage, $position, $newImage, $position);
+    $stmt->execute();
+    $stmt->close();
 }
 
 if (isset($_GET["add"])) {

@@ -42,13 +42,13 @@ const mediaManager = {
         console.log('Changing image to: ', img);
         const cluster = mediaManager.changingImage.toString().split('-')[0];
         const image = mediaManager.changingImage.toString().split('-')[1];
-        document.getElementById("cluster" + cluster).getElementsByClassName('i' + image)[0].src = '/admin/pages/' + PAGE + '/images/' + img + ".webp";
+        document.getElementById("cluster" + cluster).getElementsByClassName('i' + image)[0].src = '/admin/images/' + PAGE + '/' + img + ".webp";
         mediaManager.close();
         mediaManager.changingImage = null;
         const imgChange = cluster + '-' + image + '-' + img;
         // Send change to backend
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&imgchange=${imgChange}`, {
-            method: 'POST'
+            method: 'GET'
         }).then(response => {
             if (response.ok) {
                 console.log('Image changed successfully');
