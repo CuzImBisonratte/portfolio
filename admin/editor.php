@@ -155,7 +155,7 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
             </div>
             EOL;
             echo '<div class="image-cluster ' . $cluster['type'] . '">';
-            for ($i = 1; $i <= strlen($cluster['type']); $i++) {
+            for ($i = 1; $i <= strlen(str_replace('e', '', $cluster['type'])); $i++) {
                 $img_src = $cluster['i' . $i];
                 $img_path = $img_src ? '/admin/pages/' . $_GET['page'] . '/images/' . $img_src . '.webp' : '/res/img/placeholder.webp';
                 echo '<img src="' . $img_path . '" alt="" class="i' . $i . '" onclick="editor.chooseImage(\'' . $index . '-' . $i . '\')">';
