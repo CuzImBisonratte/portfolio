@@ -25,12 +25,24 @@ if (mysqli_connect_errno()) {
 $cluster = [];
 if (isset($_GET["delete"]) || isset($_GET["moveUp"]) || isset($_GET["moveDown"])) {
     // query current cluster
-    $clusterID = $_GET['delete'] || $_GET['moveUp'] || $_GET['moveDown'];
-    $stmt = $con->prepare('SELECT id,page_id,type,position FROM cluster WHERE page_id = ? AND position = ? ORDER BY position ASC');
+    $clusterID = $_GET['delete'] ?? $_GET['moveUp'] ?? $_GET['moveDown'];
+    $stmt = $con->prepare('SELECT id,page_id,type,position FROM cluster WHERE page_id = ? AND id = ? ORDER BY position ASC');
     $stmt->bind_param('ss', $_GET['page'], $clusterID);
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($cluster['id'], $cluster['page_id'], $cluster['type'], $cluster['position']);
+    $stmt->fetch();
+    $stmt->close();
+}
+
+$cluster_max;
+if (isset($_GET['moveDown']) || isset($_GET['add'])) {
+    // Query number of cluster
+    $stmt = $con->prepare('SELECT MAX(position) FROM cluster WHERE page_id = ?');
+    $stmt->bind_param('s', $_GET['page']);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($cluster_max);
     $stmt->fetch();
     $stmt->close();
 }
@@ -48,17 +60,51 @@ if (isset($_GET["delete"])) {
 }
 
 if (isset($_GET["moveUp"])) {
-    // Move cluster up
-    $temp = $pageConfig['clusters'][$_GET["moveUp"]];
-    $pageConfig['clusters'][$_GET["moveUp"]] = $pageConfig['clusters'][$_GET["moveUp"] - 1];
-    $pageConfig['clusters'][$_GET["moveUp"] - 1] = $temp;
+    if ($cluster['position'] == 1) die;
+
+    // Move cluster above to temp position
+    $pos_current = $cluster['position'];
+    $pos_above = $pos_current - 1;
+    $stmt = $con->prepare('UPDATE cluster SET position = -1 WHERE position = ? AND page_id = ?');
+    $stmt->bind_param('ss', $pos_above, $_GET['page']);
+    $stmt->execute();
+    $stmt->close();
+
+    // Move current cluster up
+    $stmt = $con->prepare('UPDATE cluster SET position = position - 1 WHERE position = ? AND page_id = ?');
+    $stmt->bind_param('ss', $pos_current, $_GET['page']);
+    $stmt->execute();
+    $stmt->close();
+
+    // Move cluster above down
+    $stmt = $con->prepare('UPDATE cluster SET position = ? WHERE position = -1 AND page_id = ?');
+    $stmt->bind_param('ss', $pos_current, $_GET['page']);
+    $stmt->execute();
+    $stmt->close();
 }
 
 if (isset($_GET["moveDown"])) {
-    // Move cluster down
-    $temp = $pageConfig['clusters'][$_GET["moveDown"]];
-    $pageConfig['clusters'][$_GET["moveDown"]] = $pageConfig['clusters'][$_GET["moveDown"] + 1];
-    $pageConfig['clusters'][$_GET["moveDown"] + 1] = $temp;
+    if ($cluster['position'] == $cluster_max) die;
+
+    // Move cluster below to temp position
+    $pos_current = $cluster['position'];
+    $pos_below = $pos_current + 1;
+    $stmt = $con->prepare('UPDATE cluster SET position = -1 WHERE position = ? AND page_id = ?');
+    $stmt->bind_param('ss', $pos_below, $_GET['page']);
+    $stmt->execute();
+    $stmt->close();
+
+    // Move current cluster down
+    $stmt = $con->prepare('UPDATE cluster SET position = position + 1 WHERE position = ? AND page_id = ?');
+    $stmt->bind_param('ss', $pos_current, $_GET['page']);
+    $stmt->execute();
+    $stmt->close();
+
+    // Move cluster below up
+    $stmt = $con->prepare('UPDATE cluster SET position = ? WHERE position = -1 AND page_id = ?');
+    $stmt->bind_param('ss', $pos_current, $_GET['page']);
+    $stmt->execute();
+    $stmt->close();
 }
 
 if (isset($_GET["imgchange"])) {
@@ -70,18 +116,10 @@ if (isset($_GET["imgchange"])) {
 
 if (isset($_GET["add"])) {
     $type = $_GET["add"];
-    $img_num = strlen(str_replace('e', '', $type));
-    $newCluster = array('type' => $type);
-    for ($i = 1; $i <= $img_num; $i++) {
-        $newCluster['i' . $i] = '';
-    }
-    $pageConfig['clusters'][] = $newCluster;
+    $id = bin2hex(random_bytes(4));
+    $pos_new = $cluster_max + 1;
+    $stmt = $con->prepare('INSERT INTO cluster (id, page_id, type, position) VALUES (?, ?, ?, ?)');
+    $stmt->bind_param('sssi', $id, $_GET['page'], $type, $pos_new);
+    $stmt->execute();
+    $stmt->close();
 }
-
-// Re-order clusters (fix indexes being out of order)
-$tempArray = [];
-for ($i = 0; $i < count($pageConfig['clusters']); $i++) $tempArray[] = $pageConfig['clusters'][$i];
-$pageConfig['clusters'] = $tempArray;
-
-// Write new page config
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET['page'] . '/pageConfig.php', '<?php $pageConfig = ' . var_export($pageConfig, true) . ';');
