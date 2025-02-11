@@ -84,3 +84,13 @@ async function changePageData() {
         console.error('Error:', error);
     });
 }
+
+// 
+// Cluster auto-clouse on click outside
+// 
+const cluster = document.getElementById('addCluster');
+cluster.addEventListener("click", (e) => {
+    if (e.target === cluster) {
+        document.getElementById('addCluster').style.display = 'none';
+    }
+});
