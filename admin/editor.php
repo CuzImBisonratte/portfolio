@@ -18,7 +18,6 @@ if (mysqli_errno($con)) die('Failed to connect to database');
 $page = [];
 $clusters = [];
 $images = [];
-$views = [];
 $stmt = $con->prepare("SELECT title, subtitle, id FROM page WHERE id = ?");
 $stmt->bind_param('s', $_GET['page']);
 $stmt->execute();
@@ -35,7 +34,7 @@ $stmt->bind_param('s', $page['id']);
 $stmt->execute();
 $stmt->bind_result($cluster['id'], $cluster['type'], $cluster['position']);
 while ($stmt->fetch()) {
-    $clusters[$cluster['id']] = $cluster;
+    $clusters[$cluster['id']] = json_decode(json_encode($cluster), true);
 }
 $stmt->close();
 $stmt = $con->prepare("SELECT id, alt, camera, artist, time, fileformat FROM image WHERE page_id = ?");
@@ -43,7 +42,7 @@ $stmt->bind_param('s', $page['id']);
 $stmt->execute();
 $stmt->bind_result($image['id'], $image['alt'], $image['camera'], $image['artist'], $image['time'], $image['fileformat']);
 while ($stmt->fetch()) {
-    $images[$image['id']] = $image;
+    $images[$image['id']] = json_decode(json_encode($image), true);
 }
 $stmt->close();
 $stmt = $con->prepare("SELECT cluster_id, image_id, position FROM view WHERE cluster_id = ?");
@@ -350,7 +349,7 @@ $stmt->close();
         echo "const PAGE = '" . $_GET['page'] . "';";
         echo "const MAX_UPLOAD_SIZE = " . min(convertToBytes(ini_get('upload_max_filesize')), convertToBytes(ini_get('post_max_size'))) . ";";
         echo "const MAX_UPLOAD_FILES = " . ini_get('max_file_uploads') . ";";
-        echo "const IMAGES = " . json_encode($pageConfig['images']) . ";";
+        echo "const IMAGES = " . json_encode($images) . ";";
 
         function convertToBytes($size)
         {
