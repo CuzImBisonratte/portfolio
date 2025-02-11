@@ -35,7 +35,7 @@ $stmt->bind_param('s', $page['id']);
 $stmt->execute();
 $stmt->bind_result($cluster['id'], $cluster['type'], $cluster['position']);
 while ($stmt->fetch()) {
-    $clusters[$cluster['position']] = $cluster['id'];
+    $clusters[$cluster['position']] = $cluster;
 }
 $stmt->close();
 $stmt = $con->prepare("SELECT id, alt, camera, artist, time FROM image WHERE page_id = ?");
@@ -48,7 +48,7 @@ while ($stmt->fetch()) {
 $stmt->close();
 $stmt = $con->prepare("SELECT cluster_id, image_id, position FROM view WHERE cluster_id = ?");
 foreach ($clusters as $cluster) {
-    $stmt->bind_param('s', $cluster);
+    $stmt->bind_param('s', $cluster['id']);
     $stmt->execute();
     $stmt->bind_result($view['cluster_id'], $view['image_id'], $view['position']);
     while ($stmt->fetch()) {
@@ -56,7 +56,6 @@ foreach ($clusters as $cluster) {
     }
 }
 $stmt->close();
-
 
 ?>
 
