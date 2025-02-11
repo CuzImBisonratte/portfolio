@@ -19,22 +19,14 @@ const mediaManager = {
         for (let i = 0; i < files.length; i++) {
             const formData = new FormData();
             formData.append('file', files[i]);
-            // Wait until last call is at least 3s ago - DO NOT SET lastCall, as the page reloads itself
-            while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
             fetch(`/admin/php/mediaManagerUpload.php?page=${PAGE}`, {
                 method: 'POST',
                 body: formData
             }).then(response => {
-                if (++uploadsFinished === files.length)
-                    // Run the after upload php script
-                    fetch(`/admin/php/mediaManagerAfterUpload.php?page=${PAGE}&mediamanager`, {
-                        method: 'POST'
-                    }).then(response => {
-                        document.getElementById('upload-spinner').style.display = 'none';
-                        location.href = location.href;
-                    }).catch(error => {
-                        console.error('Error:', error);
-                    });
+                if (++uploadsFinished === files.length) { // Last file uploaded
+                    document.getElementById('upload-spinner').style.display = 'none';
+                    location.href = location.href;
+                }
             }).catch(error => {
                 console.error('Error:', error);
             });
@@ -54,9 +46,6 @@ const mediaManager = {
         mediaManager.close();
         mediaManager.changingImage = null;
         const imgChange = cluster + '-' + image + '-' + img;
-        // Wait until last call is at least 3s ago
-        while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
-        lastCall = new Date().getTime();
         // Send change to backend
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&imgchange=${imgChange}`, {
             method: 'POST'
@@ -77,9 +66,6 @@ const mediaManager = {
         // Delete all img elements with the same src
         let imgs = document.getElementsByTagName('img');
         for (let i = 0; i < imgs.length; i++) if (imgs[i].getAttribute('src') === url) imgs[i].src = '';
-        // Wait until last call is at least 3s ago
-        while (new Date().getTime() - lastCall < lastCallTimeout) await new Promise(resolve => setTimeout(resolve, 100));
-        lastCall = new Date().getTime();
         fetch(`/admin/php/mediaManagerDelete.php?page=${PAGE}&img=${img}`, {
             method: 'POST'
         }).then(response => {

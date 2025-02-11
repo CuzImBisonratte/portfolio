@@ -35,7 +35,7 @@ $stmt->bind_param('s', $page['id']);
 $stmt->execute();
 $stmt->bind_result($cluster['id'], $cluster['type'], $cluster['position']);
 while ($stmt->fetch()) {
-    $clusters[$cluster['position']] = $cluster;
+    $clusters[$cluster['id']] = $cluster;
 }
 $stmt->close();
 $stmt = $con->prepare("SELECT id, alt, camera, artist, time FROM image WHERE page_id = ?");
@@ -52,10 +52,13 @@ foreach ($clusters as $cluster) {
     $stmt->execute();
     $stmt->bind_result($view['cluster_id'], $view['image_id'], $view['position']);
     while ($stmt->fetch()) {
-        $views[$view['cluster_id']][$view['position']] = $view['image_id'];
+        // Integrate views into clusters
+        $clusters[$view['cluster_id']]['i' . $view['position']] = $view['image_id'];
     }
 }
 $stmt->close();
+
+echo json_encode($clusters);
 
 ?>
 
@@ -126,11 +129,11 @@ $stmt->close();
         <?php
 
         // Loop through all image clusters in pageconfig
-        foreach ($pageConfig['clusters'] as $index => $cluster) {
+        foreach ($clusters as $index => $cluster) {
             $isFirst = $index == 0 ? 'firstUpDisabled' : '';
-            $isLast = $index == count($pageConfig['clusters']) - 1 ? 'lastDownDisabled' : '';
+            $isLast = $index == count($clusters) - 1 ? 'lastDownDisabled' : '';
             $upJS = $index == 0 ? '' : 'editor.moveImageClusterUp(' . $index . ')';
-            $downJS = $index == count($pageConfig['clusters']) - 1 ? '' : 'editor.moveImageClusterDown(' . $index . ')';
+            $downJS = $index == count($clusters) - 1 ? '' : 'editor.moveImageClusterDown(' . $index . ')';
             echo <<<EOL
             <div class="image-cluster-container" id="cluster$index">
             <div class="image-cluster-actions">
@@ -152,12 +155,10 @@ $stmt->close();
             </div>
             EOL;
             echo '<div class="image-cluster ' . $cluster['type'] . '">';
-            for ($i = 1; $i <= count($cluster); $i++) {
-                if (isset($cluster['i' . $i])) {
-                    $img_src = str_replace(".JPG", ".webp", $pageConfig['images'][$cluster['i' . $i]]['src']);
-                    $img_path = $img_src ? '/admin/pages/' . $_GET['page'] . '/images/' . $img_src : '/res/img/placeholder.webp';
-                    echo '<img src="' . $img_path . '" alt="" class="i' . $i . '" onclick="editor.chooseImage(\'' . $index . '-' . $i . '\')">';
-                }
+            for ($i = 1; $i <= strlen($cluster['type']); $i++) {
+                $img_src = $cluster['i' . $i];
+                $img_path = $img_src ? '/admin/pages/' . $_GET['page'] . '/images/' . $img_src . '.webp' : '/res/img/placeholder.webp';
+                echo '<img src="' . $img_path . '" alt="" class="i' . $i . '" onclick="editor.chooseImage(\'' . $index . '-' . $i . '\')">';
             }
             echo '</div>';
             echo '</div>';

@@ -18,7 +18,7 @@ if (!isset($_GET['page'])) die(2);
 $page = $_GET['page'];
 
 // DB connection
-$con = mysqli_connect($config['db']['host'], $config['db']['username'], $config['db']['password'], $config['db']['db']);
+$con = mysqli_connect($CONFIG['db']['host'], $CONFIG['db']['user'], $CONFIG['db']['password'], $CONFIG['db']['database']);
 if (mysqli_connect_errno()) {
     echo 'Failed to connect to MySQL: ' . mysqli_connect_error();
     die;
@@ -31,9 +31,9 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
     // Get filename
     $name = $_FILES['file']['name'];
     // Move file to images directory
-    move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
+    move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . "/" . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
     // Get exif data
-    $exif = exif_read_data($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
+    $exif = exif_read_data($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
     // Fix weird exif formats
     if (isset($exif['FNumber']) && strpos($exif['FNumber'], '/') !== false) $exif['FNumber'] = explode('/', $exif['FNumber'])[0] / explode('/', $exif['FNumber'])[1];
     if (isset($exif['FocalLength']) && strpos($exif['FocalLength'], '/') !== false) $exif['FocalLength'] = explode('/', $exif['FocalLength'])[0] / explode('/', $exif['FocalLength'])[1];
@@ -48,7 +48,7 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
     $camInfoString .= isset($exif['ISOSpeedRatings']) ? ", ISO " . $exif['ISOSpeedRatings'] : "";
 
     // Save image as WEBP for faster loading with 1920x? resolution
-    $im = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
+    $im = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
     $img_rotate = $im->getImageOrientation();
     $im->setImageFormat('webp');
     $im->setImageCompressionQuality(80);
@@ -66,21 +66,17 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
         }
     }
     $im->resizeImage(1920, 0, Imagick::FILTER_LANCZOS, 1);
-    $im->writeImage($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET["page"] . '/images/' . $id . '.webp');
+    $im->writeImage($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.webp');
     $im->clear();
 
     // Insert image into database
-    $insert_source = $id . '.' . pathinfo($name, PATHINFO_EXTENSION);
+    $insert_source = $id;
     $insert_artist = isset($exif['Artist']) ? $exif['Artist'] : '';
     $insert_time = isset($exif['DateTime']) ? $exif['DateTime'] : '';
-    $stmt = $con->prepare("INSERT INTO `image`(`source`, `page_id`, `alt`, `camera`, `artist`, `time`) VALUES (?, ?, '', ?, ?, ?)");
-    $stmt->bind_param('sssss', $insert_source, $page, $camInfoString, $insert_artist, $insert_time);
+    $insert_filetype = pathinfo($name, PATHINFO_EXTENSION);
+    $stmt = $con->prepare("INSERT INTO `image`(`id`, `page_id`, alt, camera, artist, time, fileformat) VALUES (?, ?, '', ?, ?, ?, ?)");
+    $stmt->bind_param('ssssss', $insert_source, $page, $camInfoString, $insert_artist, $insert_time, $insert_filetype);
     $stmt->execute();
     $stmt->close();
-
-    // Sleep to wait for all processes to finish
-    sleep(1);
-
-    echo true;
 }
 echo false;
