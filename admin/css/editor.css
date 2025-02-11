@@ -334,14 +334,14 @@ addCluster overlay
     background-color: var(--background-color);
     min-width: 60dvw;
     max-width: 50rem;
-    min-height: 60dvh;
+    min-height: 40dvh;
     max-height: 80dvh;
     z-index: 1000;
     border-radius: 0.5rem;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    gap: 1rem;
+    gap: 0.5rem;
     padding: 1rem;
 }
 
