@@ -122,9 +122,9 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
         </div>
     </div>
     <div class="wysiwyg-editor">
-        <form class="portfolio-title" action="javascript:changePageData()">
-            <input class="portfolio-name" type="text" name="pageName" value="<?= isset($page['title']) ? $page['title'] : 'No title set!' ?>" onblur="this.form.submit()">
-            <input class="portfolio-date" type="text" name="pageDate" value="<?= isset($page['subtitle']) ? $page['subtitle'] : 'No subtitle set!' ?>" onblur="this.form.submit()">
+        <form class="portfolio-metadata" action="javascript:changePageData()">
+            <input class="portfolio-title" type="text" name="title" value="<?= isset($page['title']) ? $page['title'] : 'No title set!' ?>" onblur="this.form.submit()">
+            <input class="portfolio-subtitle" type="text" name="subtitle" value="<?= isset($page['subtitle']) ? $page['subtitle'] : 'No subtitle set!' ?>" onblur="this.form.submit()">
         </form>
         <?php
 

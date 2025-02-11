@@ -11,12 +11,23 @@ if (!isset($_GET['page'])) {
     die;
 }
 
-// Load page config
-include_once $_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET['page'] . '/pageConfig.php';
+// Include config file
+include_once $_SERVER['DOCUMENT_ROOT'] . '/config.php';
 
-// Check for actions
-if (isset($_POST["pageName"])) $pageConfig['pageName'] = $_POST["pageName"];
-if (isset($_POST["pageDate"])) $pageConfig['pageDate'] = $_POST["pageDate"];
+// DB connection
+$con = mysqli_connect($CONFIG['db']['host'], $CONFIG['db']['user'], $CONFIG['db']['password'], $CONFIG['db']['database']);
+if (mysqli_connect_errno()) {
+    echo 'Failed to connect to MySQL: ' . mysqli_connect_error();
+    die;
+}
 
-// Write new page config
-file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/admin/pages/' . $_GET['page'] . '/pageConfig.php', '<?php $pageConfig = ' . var_export($pageConfig, true) . ';');
+if (!isset($_POST['title']) || !isset($_POST['subtitle'])) {
+    die;
+}
+
+$stmt = $con->prepare('UPDATE page SET title = ?, subtitle = ? WHERE id = ?');
+$stmt->bind_param('sss', $_POST['title'], $_POST['subtitle'], $_GET['page']);
+$stmt->execute();
+$stmt->close();
+
+var_dump($_POST);

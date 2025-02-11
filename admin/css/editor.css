@@ -130,7 +130,7 @@ Wysiwyg editor
 
 /* Fix for portfolio data being inputs */
 
-.portfolio-name {
+.portfolio-title {
     background-color: transparent;
     border: none;
     color: var(--text-color);
@@ -139,12 +139,12 @@ Wysiwyg editor
     text-align: center;
 }
 
-.portfolio-name:focus {
+.portfolio-title:focus {
     outline: none;
     border-bottom: 2px solid var(--text-color);
 }
 
-.portfolio-date {
+.portfolio-subtitle {
     background-color: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.7);
@@ -152,7 +152,7 @@ Wysiwyg editor
     font-weight: 500;
 }
 
-.portfolio-date:focus {
+.portfolio-subtitle:focus {
     outline: none;
     border-bottom: 2px solid rgba(255, 255, 255, 0.7);
 }

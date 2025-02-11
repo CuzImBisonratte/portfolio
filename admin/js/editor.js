@@ -73,7 +73,7 @@ const editor = {
 async function changePageData() {
     fetch('/admin/php/changePageData.php?page=' + PAGE, {
         method: 'POST',
-        body: new FormData(document.querySelector('.portfolio-title'))
+        body: new FormData(document.querySelector('.portfolio-metadata'))
     }).then(response => {
         if (response.ok) {
             console.log('Page data updated successfully');

@@ -1,4 +1,4 @@
-.portfolio-title {
+.portfolio-metadata {
     display: grid;
     place-content: center;
     width: 100%;
@@ -9,15 +9,15 @@
     /* This is for the fixed nav */
 }
 
-.portfolio-title:not(:has(.portfolio-date)) {
+.portfolio-metadata:not(:has(.portfolio-subtitle)) {
     min-height: 10rem;
 }
 
-.portfolio-title:has(.portfolio-date) {
+.portfolio-metadata:has(.portfolio-subtitle) {
     min-height: 15rem;
 }
 
-.portfolio-date {
+.portfolio-subtitle {
     font-size: 1rem;
     font-weight: 500;
     text-align: center;
