@@ -16,6 +16,7 @@ body {
     top: 0;
     width: 100%;
     z-index: 1000;
+    box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 /* 
