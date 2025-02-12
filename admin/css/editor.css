@@ -460,6 +460,152 @@ Original source (edited): https://codepen.io/CodeArtisT75/pen/QWLQwYL
 }
 
 /* 
+Page detail editor
+*/
+
+.editPage {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: hidden;
+    place-content: center;
+}
+
+.editPage>div {
+    background-color: var(--background3-color);
+    min-width: 60dvw;
+    max-width: 50rem;
+    min-height: 60dvh;
+    max-height: 80dvh;
+    z-index: 1000;
+    border-radius: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4em 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "nav"
+        "main";
+    padding: 0.5rem;
+    overflow: hidden;
+}
+
+.editPage nav {
+    grid-area: nav;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        "nav-left nav-center nav-right";
+}
+
+.editPage .nav-left {
+    grid-area: nav-left;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.editPage .nav-center {
+    grid-area: nav-center;
+    display: flex;
+    justify-content: center;
+}
+
+.editPage .nav-right {
+    grid-area: nav-right;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.editPage nav a,
+.editPage nav form,
+.editPage nav form label {
+    display: grid;
+    place-content: center;
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+    margin: 0.5rem 0.25rem;
+}
+
+.editPage nav a svg,
+.editPage nav form svg {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--text-color);
+}
+
+.editPage nav a:hover svg {
+    color: var(--background-color);
+    fill: var(--text-color);
+    scale: 1.1;
+}
+
+.editPage main {
+    grid-area: main;
+    height: fit-content;
+    max-height: 100%;
+    padding-top: 0.5rem;
+    overflow: scroll;
+}
+
+.editPage form input {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.editPage form input[type="submit"] {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 1rem;
+    border: 0;
+    cursor: pointer;
+    text-align: center;
+}
+
+.pagelink_form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0 0.5rem;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "pagelink_title pagelink_title pagelink_title"
+        "pagelink_prefix pagelink_input pagelink_submit";
+    background-color: var(--background2-color);
+    padding: 1rem;
+}
+
+.pagelink_title {
+    grid-area: pagelink_title;
+    margin: 0;
+    text-align: center;
+}
+
+.pagelink_prefix {
+    grid-area: pagelink_prefix;
+    display: grid;
+    place-content: center end;
+    cursor: not-allowed;
+    white-space: nowrap;
+}
+
+.pagelink_input {
+    grid-area: pagelink_input;
+    text-align: left;
+}
+
+.pagelink_submit {
+    grid-area: pagelink_submit;
+}
+
+/* 
 Footer
 */
 

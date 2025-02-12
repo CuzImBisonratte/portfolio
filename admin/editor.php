@@ -86,7 +86,7 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 0 1-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 0 0 6.16-12.12A14.98 14.98 0 0 0 9.631 8.41m5.96 5.96a14.926 14.926 0 0 1-5.841 2.58m-.119-8.54a6 6 0 0 0-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 0 0-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 0 1-2.448-2.448 14.9 14.9 0 0 1 .06-.312m-2.24 2.39a4.493 4.493 0 0 0-1.757 4.306 4.493 4.493 0 0 0 4.306-1.758M16.5 9a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                 </svg>
             </a>
-            <a href="javascript:editPage()">
+            <a href="javascript:editor.editPage()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                 </svg>
@@ -347,6 +347,35 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
             <div class="square-2 square"></div>
             <div class="square-3 square"></div>
             <div class="square-4 square"></div>
+        </div>
+    </div>
+    <div class="overlay editPage" id="editPage">
+        <div>
+            <nav>
+                <div class="nav-left"></div>
+                <div class="nav-center">
+                    <h2>Page Metadata Editor</h2>
+                </div>
+                <div class="nav-right">
+                    <a href="javascript:editor.closeEditPage()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </a>
+                </div>
+            </nav>
+            <main>
+                <div>
+                    <form action="/admin/php/changePageUrl.php?oldURL=<?= $page['id'] ?>" method="post" class="pagelink_form">
+                        <h2 class="pagelink_title">Page link</h2>
+                        <div class="pagelink_prefix">
+                            https://<?php echo $_SERVER['HTTP_HOST'] ?>/
+                        </div>
+                        <input type="text" name="pageLink" class="pagelink_input" value="<?= $page['id'] ?>" pattern="[a-zA-Z0-9\-]+" title="Only letters, numbers, and hyphens are allowed">
+                        <input type="submit" value="Change Link" class="pagelink_submit">
+                    </form>
+                </div>
+            </main>
         </div>
     </div>
     <div class="footer"></div>

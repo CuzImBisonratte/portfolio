@@ -67,6 +67,12 @@ const editor = {
         }).catch(error => {
             console.error('Error:', error);
         });
+    },
+    editPage: () => {
+        document.getElementById('editPage').style.display = 'grid';
+    },
+    closeEditPage: () => {
+        document.getElementById('editPage').style.display = 'none';
     }
 };
 
@@ -92,5 +98,15 @@ const cluster = document.getElementById('addCluster');
 cluster.addEventListener("click", (e) => {
     if (e.target === cluster) {
         document.getElementById('addCluster').style.display = 'none';
+    }
+});
+
+//
+// Page data auto-close on click outside
+//
+const pageData = document.getElementById('editPage');
+pageData.addEventListener("click", (e) => {
+    if (e.target === pageData) {
+        document.getElementById('editPage').style.display = 'none';
     }
 });
