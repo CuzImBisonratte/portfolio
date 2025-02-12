@@ -61,11 +61,11 @@ main {
     display: grid;
     place-content: center;
     padding-bottom: 0.5rem;
+    aspect-ratio: 16/9;
 }
 
 .portfolio-cover img {
     width: 100%;
-    aspect-ratio: 16/9;
     object-fit: cover;
 }
 
