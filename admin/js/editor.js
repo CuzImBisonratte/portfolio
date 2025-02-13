@@ -68,11 +68,18 @@ const editor = {
             console.error('Error:', error);
         });
     },
+    closeClusterPicker: () => {
+        document.getElementById('addCluster').style.display = 'none';
+    },
     editPage: () => {
         document.getElementById('editPage').style.display = 'grid';
     },
     closeEditPage: () => {
         document.getElementById('editPage').style.display = 'none';
+    },
+    chooseCover: () => {
+        mediaManager.changingImage = "cover";
+        mediaManager.open(true);
     },
     deletePage: () => {
         const confirmation = confirm('Are you sure you want to delete this page?');
@@ -108,7 +115,7 @@ async function changePageData() {
 const cluster = document.getElementById('addCluster');
 cluster.addEventListener("click", (e) => {
     if (e.target === cluster) {
-        document.getElementById('addCluster').style.display = 'none';
+        editor.closeClusterPicker();
     }
 });
 
@@ -118,6 +125,34 @@ cluster.addEventListener("click", (e) => {
 const pageData = document.getElementById('editPage');
 pageData.addEventListener("click", (e) => {
     if (e.target === pageData) {
-        document.getElementById('editPage').style.display = 'none';
+        editor.closeEditPage();
+    }
+});
+
+// 
+// Keyboard shortcuts
+// 
+window.addEventListener("keydown", (e) => {
+    switch (e.key.toLowerCase()) {
+        case "escape":
+            editor.closeClusterPicker();
+            editor.closeEditPage();
+            mediaManager.close();
+            break;
+        case "e":
+            editor.closeClusterPicker();
+            mediaManager.close();
+            editor.editPage();
+            break;
+        case "p":
+            editor.closeEditPage();
+            mediaManager.close();
+            editor.addCluster();
+            break;
+        case "i":
+            editor.closeEditPage();
+            editor.closeClusterPicker();
+            mediaManager.open(false);
+            break;
     }
 });

@@ -39,13 +39,30 @@ const mediaManager = {
     },
     click: async (img) => {
         if (!mediaManager.changingImage) return;
+        mediaManager.close();
+        if (mediaManager.changingImage == "cover") { // If cover change is requested
+            mediaManager.changingImage = null;
+            // Send change to backend
+            fetch(`/admin/php/changeCover.php?page=${PAGE}&img=${img}`, {
+                method: 'GET'
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Cover changed successfully');
+                    document.getElementById('coverImagePreview').src = '/admin/images/' + PAGE + '/' + img + ".webp";
+                } else {
+                    console.error('Failed to change cover');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+            return;
+        }
         console.log('Changing image to: ', img);
         const cluster = mediaManager.changingImage.toString().split('-')[0];
         const image = mediaManager.changingImage.toString().split('-')[1];
         document.getElementById("cluster" + cluster).getElementsByClassName('i' + image)[0].src = '/admin/images/' + PAGE + '/' + img + ".webp";
-        mediaManager.close();
-        mediaManager.changingImage = null;
         const imgChange = cluster + '-' + image + '-' + img;
+        mediaManager.changingImage = null;
         // Send change to backend
         fetch(`/admin/php/clusterActions.php?page=${PAGE}&imgchange=${imgChange}`, {
             method: 'GET'

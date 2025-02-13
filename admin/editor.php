@@ -18,10 +18,10 @@ if (mysqli_errno($con)) die('Failed to connect to database');
 $page = [];
 $clusters = [];
 $images = [];
-$stmt = $con->prepare("SELECT title, subtitle, id FROM page WHERE id = ?");
+$stmt = $con->prepare("SELECT title, subtitle, id, cover_image_id FROM page WHERE id = ?");
 $stmt->bind_param('s', $_GET['page']);
 $stmt->execute();
-$stmt->bind_result($page['title'], $page['subtitle'], $page['id']); #
+$stmt->bind_result($page['title'], $page['subtitle'], $page['id'], $page['cover_image_id']); #
 $stmt->fetch();
 if ($page['id'] == null) {
     $stmt->close();
@@ -374,6 +374,13 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
                         <input type="text" name="pageLink" class="pagelink_input" value="<?= $page['id'] ?>" pattern="[a-zA-Z0-9\-]+" title="Only letters, numbers, and hyphens are allowed">
                         <input type="submit" value="Change Link" class="pagelink_submit">
                     </form>
+                    <form action="/admin/php/changeCoverImage.php?oldURL=<?= $page['id'] ?>" method="post" class="coverimage_form">
+                        <h2 class="coverimage_title">Cover image</h2>
+                        <div class="coverimage_preview">
+                            <img src="/admin/images/<?= $page['id'] ?>/<?= $page['cover_image_id'] ?>.webp" alt="No cover image set for this page" id="coverImagePreview">
+                        </div>
+                        <label class="coverimage_pick" onclick="editor.chooseCover()">Choose another image</label>
+                    </form>
                     <form class="pagedelete_form" action="javascript:editor.deletePage()">
                         <h2 class="pagedelete_title">Delete this page</h2>
                         <input type="submit" value="Delete page" class="pagedelete_submit">
@@ -386,6 +393,7 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
     <script src="/admin/js/editor.js"></script>
     <script src="/admin/js/mediamanager.js"></script>
     <?php if (isset($_GET['mediamanager'])) echo '<script>mediaManager.open()</script>'; ?>
+    <?php if (isset($_GET['edit'])) echo '<script>editor.editPage()</script>'; ?>
     <script>
         <?php
         echo "const PAGE = '" . $_GET['page'] . "';";

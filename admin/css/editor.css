@@ -15,7 +15,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000;
+    z-index: 750;
     box-shadow: 0 0.1rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
@@ -343,7 +343,7 @@ addCluster overlay
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .addCluster>div>div {
@@ -471,7 +471,7 @@ Page detail editor
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
+    z-index: 999;
     overflow: hidden;
     place-content: center;
 }
@@ -555,6 +555,11 @@ Page detail editor
     overflow: scroll;
 }
 
+.editPage main>div {
+    display: grid;
+    gap: 1rem;
+}
+
 .editPage form input {
     font-weight: 500;
     font-size: 1rem;
@@ -616,7 +621,6 @@ Page detail editor
         "pagedelete_submit";
     background-color: var(--background2-color);
     padding: 1rem;
-    margin-top: 1rem;
 }
 
 .pagedelete_title {
@@ -628,6 +632,52 @@ Page detail editor
 .pagedelete_submit {
     grid-area: pagedelete_submit;
     background-color: #440808 !important;
+}
+
+.coverimage_form {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: auto 1fr;
+    gap: 1rem 0.5rem;
+    grid-auto-flow: row;
+    grid-template-areas:
+        "coverimage_title coverimage_title"
+        "coverimage_preview coverimage_pick";
+    background-color: var(--background2-color);
+    padding: 1rem;
+}
+
+.coverimage_title {
+    grid-area: coverimage_title;
+    margin: 0;
+    text-align: center;
+}
+
+.coverimage_preview {
+    grid-area: coverimage_preview;
+    display: grid;
+    place-content: center;
+}
+
+.coverimage_preview img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.coverimage_pick {
+    grid-area: coverimage_pick;
+    text-align: left;
+    font-weight: 500;
+    font-size: 1rem;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 1rem;
+    border: 0;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
 }
 
 /* 
