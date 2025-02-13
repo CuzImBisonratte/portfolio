@@ -73,6 +73,17 @@ const editor = {
     },
     closeEditPage: () => {
         document.getElementById('editPage').style.display = 'none';
+    },
+    deletePage: () => {
+        const confirmation = confirm('Are you sure you want to delete this page?');
+        if (!confirmation) return;
+        fetch(`/admin/php/deletePage.php?page=${PAGE}`, {
+            method: 'GET'
+        }).then(response => {
+            if (response.ok) location.href = '/admin/';
+        }).catch(error => {
+            console.error('Error:', error);
+        });
     }
 };
 

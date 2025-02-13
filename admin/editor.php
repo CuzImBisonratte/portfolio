@@ -374,6 +374,10 @@ array_multisort(array_column($clusters, 'position'), SORT_ASC, $clusters);
                         <input type="text" name="pageLink" class="pagelink_input" value="<?= $page['id'] ?>" pattern="[a-zA-Z0-9\-]+" title="Only letters, numbers, and hyphens are allowed">
                         <input type="submit" value="Change Link" class="pagelink_submit">
                     </form>
+                    <form class="pagedelete_form" action="javascript:editor.deletePage()">
+                        <h2 class="pagedelete_title">Delete this page</h2>
+                        <input type="submit" value="Delete page" class="pagedelete_submit">
+                    </form>
                 </div>
             </main>
         </div>
