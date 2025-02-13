@@ -69,7 +69,7 @@ $portfolios = $con->query('SELECT id, title, subtitle, cover_image_id FROM page'
             <?php foreach ($portfolios as $portfolio) : ?>
                 <a class="portfolio" href="/admin/editor.php?page=<?= $portfolio['id'] ?>">
                     <div class="portfolio-cover">
-                        <img src="/admin/images/<?= $portfolio['id'] ?>/<?= $portfolio['cover_image_id'] ?>.webp" alt="">
+                        <img src="/admin/php/getImage.php?page=<?= $portfolio['id'] ?>&img=<?= $portfolio['cover_image_id'] ?>.webp" alt="">
                     </div>
                     <div class="portfolio-title"><?= $portfolio['title'] ?></div>
                     <div class=" portfolio-subtitle"><?= $portfolio['subtitle'] ?>

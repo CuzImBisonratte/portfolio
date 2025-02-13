@@ -31,9 +31,9 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
     // Get filename
     $name = $_FILES['file']['name'];
     // Move file to images directory
-    move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . "/" . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
+    move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . "/" . $id . '.' . pathinfo($name, PATHINFO_EXTENSION) . ".protected");
     // Get exif data
-    $exif = exif_read_data($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
+    $exif = exif_read_data($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION) . ".protected");
     // Fix weird exif formats
     if (isset($exif['FNumber']) && strpos($exif['FNumber'], '/') !== false) $exif['FNumber'] = explode('/', $exif['FNumber'])[0] / explode('/', $exif['FNumber'])[1];
     if (isset($exif['FocalLength']) && strpos($exif['FocalLength'], '/') !== false) $exif['FocalLength'] = explode('/', $exif['FocalLength'])[0] / explode('/', $exif['FocalLength'])[1];
@@ -48,7 +48,7 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
     $camInfoString .= isset($exif['ISOSpeedRatings']) ? ", ISO " . $exif['ISOSpeedRatings'] : "";
 
     // Save image as WEBP for faster loading with 1920x? resolution
-    $im = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION));
+    $im = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.' . pathinfo($name, PATHINFO_EXTENSION) . ".protected");
     $img_rotate = $im->getImageOrientation();
     $im->setImageFormat('webp');
     $im->setImageCompressionQuality(80);
@@ -66,7 +66,7 @@ if (getimagesize($_FILES['file']['tmp_name'])) {
         }
     }
     $im->resizeImage(1920, 0, Imagick::FILTER_LANCZOS, 1);
-    $im->writeImage($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.webp');
+    $im->writeImage($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $_GET["page"] . '/' . $id . '.webp.protected');
     $im->clear();
 
     // Insert image into database

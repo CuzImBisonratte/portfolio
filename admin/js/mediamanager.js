@@ -48,7 +48,7 @@ const mediaManager = {
             }).then(response => {
                 if (response.ok) {
                     console.log('Cover changed successfully');
-                    document.getElementById('coverImagePreview').src = '/admin/images/' + PAGE + '/' + img + ".webp";
+                    document.getElementById('coverImagePreview').src = '/admin/php/getImage.php?page=' + PAGE + '&img=' + img + ".webp";
                 } else {
                     console.error('Failed to change cover');
                 }
@@ -60,7 +60,7 @@ const mediaManager = {
         console.log('Changing image to: ', img);
         const cluster = mediaManager.changingImage.toString().split('-')[0];
         const image = mediaManager.changingImage.toString().split('-')[1];
-        document.getElementById("cluster" + cluster).getElementsByClassName('i' + image)[0].src = '/admin/images/' + PAGE + '/' + img + ".webp";
+        document.getElementById("cluster" + cluster).getElementsByClassName('i' + image)[0].src = '/admin/php/getImage.php?page=' + PAGE + '&img=' + img + ".webp";
         const imgChange = cluster + '-' + image + '-' + img;
         mediaManager.changingImage = null;
         // Send change to backend
