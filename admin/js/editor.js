@@ -91,6 +91,10 @@ const editor = {
         }).catch(error => {
             console.error('Error:', error);
         });
+    },
+    deploy: () => {
+        const url = `/admin/deploy.php?deploy=${PAGE}`;
+        location.assign(url);
     }
 };
 
@@ -154,5 +158,7 @@ window.addEventListener("keydown", (e) => {
             editor.closeClusterPicker();
             mediaManager.open(false);
             break;
+        case "d":
+            editor.deploy();
     }
 });
