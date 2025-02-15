@@ -112,3 +112,78 @@ form>div:not(.deploy_button) h2 {
     border-radius: 50%;
     position: absolute;
 }
+
+/* 
+deploy animation
+Original source (edited): https://codepen.io/CodeArtisT75/pen/QWLQwYL
+*/
+
+.deploy-spinner {
+    display: none;
+    place-content: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 5000;
+    cursor: not-allowed;
+    text-align: center;
+    user-select: none;
+}
+
+.spinner-square {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    width: 12rem;
+    height: 12rem;
+}
+
+.spinner-square>.square {
+    width: 2rem;
+    height: 4rem;
+    margin: auto auto;
+    border-radius: 2rem;
+}
+
+.square-1 {
+    animation: square-anim 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) 0s infinite;
+}
+
+.square-2 {
+    animation: square-anim 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) 333ms infinite;
+}
+
+.square-3 {
+    animation: square-anim 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) 667ms infinite;
+}
+
+.square-4 {
+    animation: square-anim 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) 1000ms infinite;
+}
+
+@keyframes square-anim {
+    0% {
+        height: 2rem;
+        background-color: rgb(111, 163, 240);
+    }
+
+    20% {
+        height: 2rem;
+    }
+
+    40% {
+        height: 8rem;
+        background-color: rgb(111, 200, 240);
+    }
+
+    80% {
+        height: 2rem;
+    }
+
+    100% {
+        height: 2rem;
+        background-color: rgb(111, 163, 240);
+    }
+}

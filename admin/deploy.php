@@ -112,9 +112,22 @@ else $active_pages = [];
             <input type="submit" value="Deploy" style="display: none;" id="deploy_submit">
         </form>
     </main>
+    <div class="overlay deploy-spinner" id="deploy-spinner">
+        <h1>
+            Page is being processed,<br>
+            This may take a while...
+        </h1>
+        <div class="spinner-square">
+            <div class="square-1 square"></div>
+            <div class="square-2 square"></div>
+            <div class="square-3 square"></div>
+            <div class="square-4 square"></div>
+        </div>
+    </div>
     <div class="footer"></div>
     <script>
         function deploy() {
+            document.getElementById('deploy-spinner').style.display = 'grid';
             document.getElementById('deploy_submit').click();
         }
     </script>
