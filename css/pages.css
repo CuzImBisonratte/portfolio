@@ -1,12 +1,12 @@
 main {
     background-color: var(--background-color);
+    padding-bottom: 1.5rem;
 }
 
 nav {
     background-color: var(--background2-color);
     height: 4rem;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     position: fixed;
     width: 100%;
     top: 0;
@@ -19,9 +19,18 @@ nav {
     align-items: center;
     height: 100%;
     margin: 0 auto;
+    cursor: pointer;
 }
 
 .nav-center img {
     height: 3rem;
     width: 3rem;
+}
+
+.footer {
+    background-color: var(--background-color);
+    display: grid;
+    place-content: center;
+    min-height: 50%;
+    color: #888;
 }
