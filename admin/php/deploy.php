@@ -85,6 +85,9 @@ foreach ($_POST['pages'] as $page) {
         $images[] = $imageFile;
     }
 
+    // Fix sorting
+    ksort($clusters);
+
     // Delete /PAGENAME and recreate it
     $path = $_SERVER['DOCUMENT_ROOT'] . '/' . $pageData['id'];
     if (file_exists($path) && is_dir($path)) {
