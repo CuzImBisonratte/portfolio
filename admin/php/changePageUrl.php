@@ -34,8 +34,8 @@ if (!rename($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $oldURL, $_SERVER['DO
 }
 
 // Move output folder if exists
-if (is_dir($_SERVER['DOCUMENT_ROOT'] . $oldURL)) {
-    if (!rename($_SERVER['DOCUMENT_ROOT'] . $oldURL, $_SERVER['DOCUMENT_ROOT'] . $newURL)) {
+if (is_dir($_SERVER['DOCUMENT_ROOT'] . '/' . $oldURL)) {
+    if (!rename($_SERVER['DOCUMENT_ROOT'] . '/' . $oldURL, $_SERVER['DOCUMENT_ROOT'] . '/' . $newURL)) {
         die;
     }
 }
