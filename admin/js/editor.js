@@ -137,6 +137,8 @@ pageData.addEventListener("click", (e) => {
 // Keyboard shortcuts
 // 
 window.addEventListener("keydown", (e) => {
+    // Check if inside any input field
+    if (document.activeElement.tagName === "INPUT") return;
     switch (e.key.toLowerCase()) {
         case "escape":
             editor.closeClusterPicker();
