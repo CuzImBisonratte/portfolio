@@ -102,19 +102,12 @@ foreach ($_POST['pages'] as $page) {
 
     // Prepare images
     foreach ($images as $image) {
-        $i = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $pageData['id'] . '/' . $image . '.protected');
-        $img_name = explode('.', $image)[0];
-
-        // Create low-res preview image
-        $i->setImageCompressionQuality(50);
-        $i->thumbnailImage(600, 0);
-        $i->setImageFormat('webp');
-        $i->writeImage($path . '/' . $img_name . '-thumb.webp');
-
+        $img_name = explode(".", $image)[0];
         // Create high-res image (original size)
         $i = new Imagick($_SERVER['DOCUMENT_ROOT'] . '/admin/images/' . $pageData['id'] . '/' . $image . '.protected');
         $i->setImageCompressionQuality(50);
         $i->setImageFormat('webp');
+        // Add watermark
         if ($watermarkPosition) {
             $origX = $i->getImageWidth();
             $origY = $i->getImageHeight();
@@ -139,6 +132,12 @@ foreach ($_POST['pages'] as $page) {
             }
         }
         $i->writeImage($path . '/' . $img_name . '-full.webp');
+
+        // Create low-res preview image
+        $i->setImageCompressionQuality(50);
+        $i->thumbnailImage(600, 0);
+        $i->setImageFormat('webp');
+        $i->writeImage($path . '/' . $img_name . '-thumb.webp');
     }
 
     // File content
