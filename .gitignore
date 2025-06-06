@@ -1,4 +1,5 @@
-# Exclude every image folder
 images
-res/img
-config.php
+config.json
+node_modules
+package-lock.json
+build
