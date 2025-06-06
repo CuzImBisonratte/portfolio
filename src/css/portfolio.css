@@ -65,6 +65,7 @@
     flex-basis: 0;
     aspect-ratio: var(--ratio);
     flex-grow: calc(var(--ratio));
+    width: 100%;
 }
 
 .image-cluster img {
