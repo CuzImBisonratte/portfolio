@@ -10,27 +10,30 @@ const fs = require('fs');
 
 // Config
 const CONFIG = require('./config.json');
+PREVIEWMODE = process.argv.includes('--preview') || CONFIG.preview.enabled;
 
 // Init
 fs.existsSync(path.join(__dirname, 'build')) || fs.mkdirSync(path.join(__dirname, 'build'));
 fs.existsSync(path.join(__dirname, 'images')) || fs.mkdirSync(path.join(__dirname, 'images'));
 
 // Dev server
-const app = express();
-app.use(express.static(path.join(__dirname, 'build')));
-app.listen(CONFIG.PORT, () => {
-    log(`Preview server is running on http://localhost:${CONFIG.PORT}`);
-    if (!process.argv.includes('--noopen')) {
-        open.default(`http://localhost:${CONFIG.PORT}`);
-    }
-});
-const wss = new WebSocket.Server({ port: 3001 });
-function broadcastReload() {
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send('reload');
-        }
+if (PREVIEWMODE) {
+    const app = express();
+    app.use(express.static(path.join(__dirname, 'build')));
+    app.listen(CONFIG.PORT || 8080, () => {
+        log(`Preview server is running on http://localhost:${CONFIG.PORT || '8080'}`);
+        if (!process.argv.includes('--noopen') && !CONFIG.noOpen)
+            open.default(`http://localhost:${CONFIG.PORT || '8080'}`);
     });
+    const wss = new WebSocket.Server({ port: 3001 });
+    function broadcastReload() {
+        log('Broadcasting reload to all connected clients');
+        wss.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send('reload');
+            }
+        });
+    }
 }
 
 function log(message, type = 0) {
@@ -105,7 +108,7 @@ async function build() {
         pageFile = fs.readFileSync(path.join(__dirname, 'res/templates/page.html'), 'utf8');
         pageFile = pageFile.replace(/{{title}}/g, page.title || 'Untitled Page');
         pageFile = pageFile.replace(/{{subtitle}}/g, page.subtitle || '');
-        pageFile = pageFile.replace(/<!--JS-INJECTION-ZONE-->/g, CONFIG.autoReload ? '<script src="/js/preview-connection.js"></script>' : '');
+        pageFile = pageFile.replace(/<!--JS-INJECTION-ZONE-->/g, PREVIEWMODE ? '<script src="/js/preview-connection.js"></script>' : '');
         // Add images to the list
         clusters = [];
         if (page.displays && Array.isArray(page.displays)) {
@@ -149,9 +152,12 @@ async function build() {
         // Success message
         log(`Page ${page.name} built successfully`, 1);
     });
+    // Broadcast reload to all clients
+    log('Build completed');
 
     // Image processing
     log('Processing images...');
+    success = [];
     images.forEach(image => {
         // Load image
         sharpImage = sharp(path.join(__dirname, 'images', image.path));
@@ -197,6 +203,14 @@ async function build() {
                         log(`Error processing image ${image.path}: ${err.message}`, 3);
                     } else {
                         log(`Image ${image.path} processed as ${image.outputName}.webp (${info.width}x${info.height})`, 1);
+                        success.push(image);
+
+                        // Check if all images are processed
+                        if (success.length === images.length) {
+                            log(`All ${success.length} images processed`);
+                            // If autoReload is enabled, broadcast reload to all clients
+                            PREVIEWMODE && setTimeout(broadcastReload, 100); // Delay to ensure all files are written
+                        }
                     }
                 }
             );
@@ -204,10 +218,6 @@ async function build() {
             log(`Error reading metadata for ${image.path}: ${err.message}`, 3);
         });
     });
-
-    // Broadcast reload to all clients
-    log('Build completed successfully', 1);
-    !CONFIG.autoReload || broadcastReload();
 }
 
 function validatePages() {
@@ -236,8 +246,11 @@ function validateAndBuild() {
     }
 }
 
-// Watch for changes
-fs.watchFile(path.join(__dirname, 'config.json'), validateAndBuild);
-fs.watchFile(path.join(__dirname, 'pages.json'), validateAndBuild);
-// Initial build
-setTimeout(validateAndBuild, 1000);
+if (PREVIEWMODE) {
+    // Watch for changes
+    fs.watchFile(path.join(__dirname, 'pages.json'), validateAndBuild);
+    // Initial build
+    setTimeout(validateAndBuild, 1000);
+} else {
+    validateAndBuild();
+}
