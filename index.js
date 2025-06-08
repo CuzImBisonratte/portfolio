@@ -49,6 +49,7 @@ function log(message, type = 0) {
     const reset = '\x1b[0m';
     const timestamp = new Date().toISOString().split('T')[1].split('.')[0]; // HH:MM:SS format
     console.log(`${colors[type]}${types[type]} ${timestamp} ${message}${reset}`);
+    if (type === 3) process.exit(1); // Exit on error
 }
 
 // Build function
@@ -126,9 +127,10 @@ async function build() {
             grid_values = [];
             // Calculate image width factor
             sumInverseAspectRatio = clusters[i].reduce((sum, image) => {
-                if (image.type === 'p') return sum + (2 / 3);
-                if (image.type === 'l') return sum + (3 / 2);
-                if (image.type === 's') return sum + 1;
+                const ratio = CONFIG.imageRatios[image.type];
+                if (ratio && Array.isArray(ratio) && ratio.length === 2) {
+                    return sum + (ratio[0] / ratio[1]);
+                } else log(`ERROR: No image ratio configured for type '${image.type}'`, 3);
                 return sum;
             }, 0);
             clusters[i].forEach(image => {
@@ -153,22 +155,22 @@ async function build() {
     images.forEach(image => {
         // Load image
         sharpImage = sharp(path.join(__dirname, 'images', image.path));
-        // Resize image based on type (p = portrait 2:3, l = landscape 3:2, s = square 1:1) - image should be as large as possible
+        // Resize image based on type (TYPES FROM CONFIG)
         sharpImage.metadata().then(async meta => {
             let resizeOptions = { fit: 'cover', height: meta.height, width: meta.width };
-            switch (image.type) {
-                case 'p': // portrait 2:3
-                    if (meta.width / meta.height > 2 / 3) resizeOptions.width = Math.round(meta.height * 2 / 3);
-                    else resizeOptions.height = Math.round(meta.width * 3 / 2);
-                    break;
-                case 'l': // landscape 3:2
-                    if (meta.width / meta.height < 3 / 2) resizeOptions.width = Math.round(meta.height * 3 / 2);
-                    else resizeOptions.height = Math.round(meta.width * 2 / 3);
-                    break;
-                case 's': // square 1:1
-                    if (meta.width > meta.height) resizeOptions.width = resizeOptions.height = meta.height;
-                    else resizeOptions.width = resizeOptions.height = meta.width;
-                    break;
+            // Use configurable image ratios from CONFIG
+            const ratio = CONFIG.imageRatios[image.type];
+            if (!ratio) log(`ERROR: No image ratio configured for type '${image.type}'`, 3);
+            const [wRatio, hRatio] = ratio;
+            const imgRatio = meta.width / meta.height;
+            const targetRatio = wRatio / hRatio;
+
+            if (imgRatio > targetRatio) {
+                // Image is too wide, limit width
+                resizeOptions.width = Math.round(meta.height * targetRatio);
+            } else {
+                // Image is too tall, limit height
+                resizeOptions.height = Math.round(meta.width / targetRatio);
             }
 
             // Create watermark logo
