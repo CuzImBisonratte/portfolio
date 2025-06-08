@@ -105,21 +105,47 @@ async function build() {
         pageFile = pageFile.replace(/{{title}}/g, page.title || 'Untitled Page');
         pageFile = pageFile.replace(/{{subtitle}}/g, page.subtitle || '');
         pageFile = pageFile.replace(/<!--JS-INJECTION-ZONE-->/g, CONFIG.autoReload ? '<script src="/js/preview-connection.js"></script>' : '');
+        // Add images to the list
+        clusters = [];
+        if (page.displays && Array.isArray(page.displays)) {
+            page.displays.forEach(display => {
+                if (display.images && Array.isArray(display.images)) {
+                    const cluster = display.images.map((image, imageIndex) => {
+                        // Generate random 8-char A-Z filename as output name
+                        const outputName = Array.from({ length: 8 }, () => String.fromCharCode(65 + Math.floor(Math.random() * 26))).join('');
+                        images.push({ path: image, type: display.type.split("")[imageIndex], outputName });
+                        return { type: display.type.split("")[imageIndex], source: outputName };
+                    });
+                    clusters.push(cluster);
+                }
+            });
+        }
+        clusterHTML = "";
+        for (let i = 0; i < clusters.length; i++) {
+            clusterHTML += '<div class="image-cluster" style="grid-template-columns: {{GRID-VALUES}};">';
+            grid_values = [];
+            // Calculate image width factor
+            sumInverseAspectRatio = clusters[i].reduce((sum, image) => {
+                if (image.type === 'p') return sum + (2 / 3);
+                if (image.type === 'l') return sum + (3 / 2);
+                if (image.type === 's') return sum + 1;
+                return sum;
+            }, 0);
+            clusters[i].forEach(image => {
+                clusterHTML += `<img src="/${page.path}/images/${image.source}.webp" alt="Image ${image.source}" />`;
+                aspectRatio = 1; // Default aspect ratio for square images
+                if (image.type === 'p') aspectRatio = 2 / 3; // Portrait
+                else if (image.type === 'l') aspectRatio = 3 / 2; // Landscape
+                grid_values.push((aspectRatio / sumInverseAspectRatio * 1000).toFixed(3));
+            });
+            clusterHTML = clusterHTML.replace('{{GRID-VALUES}}', grid_values.join('fr ') + 'fr');
+            clusterHTML += '</div>';
+        }
+        pageFile = pageFile.replace(/{{clusters}}/g, clusterHTML);
         // Write HTML file
         fs.writeFileSync(path.join(pagePath, 'index.html'), pageFile);
         // Success message
         log(`Page ${page.name} built successfully`, 1);
-        // Add images to the list
-        if (page.displays && Array.isArray(page.displays)) page.displays.forEach(display => {
-            if (display.images && Array.isArray(display.images))
-                display.images = display.images.map(image => {
-                    // Generate random 8-char A-Z filename as output name
-                    const outputName = Array.from({ length: 8 }, () => String.fromCharCode(65 + Math.floor(Math.random() * 26))).join('');
-                    const imageIndex = display.images.indexOf(image);
-                    images.push({ path: image, type: display.type.split("")[imageIndex], outputName });
-                    return { original: image, outputName };
-                });
-        });
     });
 
     // Image processing
