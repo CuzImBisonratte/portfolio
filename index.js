@@ -281,7 +281,9 @@ async function build() {
     });
 }
 
-function validatePages() {
+function validateConfig() {
+    log('Validating general configuration...');
+    if (!fs.existsSync(path.join(__dirname, 'res/img/logo.png'))) return ['You have to provide a logo under /res/img/logo.png', 3];
     log('Validating page configuration...');
     const pages = JSON.parse(fs.readFileSync(path.join(__dirname, 'pages.json'), 'utf8'));
     // Check wheter each page has a 'path' property
@@ -296,7 +298,7 @@ function validatePages() {
 }
 
 function validateAndBuild() {
-    valid = validatePages();
+    valid = validateConfig();
     if (typeof valid == "object") {
         log(valid[0], valid[1] || 2);
         if (valid[1] == 3) return; // Stop if error is critical
