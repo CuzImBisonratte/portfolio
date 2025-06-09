@@ -55,3 +55,15 @@ nav a {
     min-height: 50%;
     color: #888;
 }
+
+.footer * {
+    display: inline;
+}
+
+.footer a {
+    color: var(--text-color);
+}
+
+.footer a:visited {
+    color: #888;
+}
