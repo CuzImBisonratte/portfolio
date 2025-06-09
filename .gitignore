@@ -1,5 +1,12 @@
-images
-config.json
+# Node.js dependencies
 node_modules
 package-lock.json
+
+# Add personal input
+images
+config.json
+pages.json
+res/img/logo.png
+
+# Build output
 build
