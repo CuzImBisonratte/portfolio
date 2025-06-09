@@ -150,10 +150,28 @@ async function build() {
         // Write HTML file
         fs.writeFileSync(path.join(pagePath, 'index.html'), pageFile);
         // Success message
-        log(`Page ${page.name} built successfully`, 1);
+        log(`Page ${page.path} built successfully`, 1);
     });
     // Broadcast reload to all clients
-    log('Build completed');
+    log('Build of pages completed');
+
+    // Build home page
+    const homePath = path.join(buildPath, 'index.html');
+    homeHtml = fs.readFileSync(path.join(__dirname, 'res/templates/home.html'), 'utf8');
+    homeHtml = homeHtml.replace(/{{title}}/g, CONFIG.metadata.title || 'Home');
+    homeHtml = homeHtml.replace(/<!--JS-INJECTION-ZONE-->/g, PREVIEWMODE ? '<script src="/js/preview-connection.js"></script>' : '');
+    pageElements = "";
+    pages.forEach(page => {
+        if (!page.path) return;
+        pageElement = fs.readFileSync(path.join(__dirname, 'res/templates/home_page.html'), 'utf8');
+        pageElement = pageElement.replace(/{{title}}/g, page.title || 'Untitled Page');
+        pageElement = pageElement.replace(/{{subtitle}}/g, page.subtitle || '');
+        pageElement = pageElement.replace(/{{path}}/g, page.path);
+        pageElements += pageElement;
+    });
+    homeHtml = homeHtml.replace(/{{pages}}/g, pageElements);
+    fs.writeFileSync(homePath, homeHtml);
+    log('Home page built successfully');
 
     // Image processing
     log('Processing images...');
