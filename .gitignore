@@ -1,4 +1,12 @@
-# Exclude every image folder
+# Node.js dependencies
+node_modules
+package-lock.json
+
+# Add personal input
 images
-res/img
-config.php
+config.json
+pages.json
+res/img/logo.png
+
+# Build output
+build

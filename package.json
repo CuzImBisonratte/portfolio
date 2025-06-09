@@ -1,0 +1,28 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Static portfolio builder",
+  "homepage": "https://github.com/cuzimbisonratte/portfolio#readme",
+  "bugs": {
+    "url": "https://github.com/cuzimbisonratte/portfolio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuzimbisonratte/portfolio.git"
+  },
+  "license": "ISC",
+  "author": "Konstantin Protzen",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "favicons": "^7.2.0",
+    "open": "^10.1.2",
+    "sharp": "^0.34.2",
+    "sharp-ico": "^0.1.5",
+    "ws": "^8.18.2"
+  }
+}

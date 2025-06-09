@@ -5,20 +5,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{{title}}</title>
 		<link rel="stylesheet" href="/css/portfolio.css" />
-		<link rel="stylesheet" href="/css/fonts.css" />
 		<link rel="stylesheet" href="/css/pages.css" />
 		<link rel="stylesheet" href="/css/base.css" />
-		<link rel="icon" href="/res/img/favicon.ico" type="image/x-icon" />
-		<link rel="shortcut icon" href="/res/img/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 	</head>
 
 	<body>
 		<nav>
-			<div></div>
-			<div class="nav-center">
-				<img src="/res/img/logo.webp" alt="" srcset="" />
-			</div>
-			<div></div>
+			<div class="nav-left"><!--NAV-LEFT-INJECTION-ZONE--></div>
+			<a class="nav-center" href="/">
+				<img src="/logo.webp" alt="" srcset="" />
+			</a>
+			<div class="nav-right"><!--NAV-RIGHT-INJECTION-ZONE--></div>
 		</nav>
 		<main>
 			<div class="portfolio-metadata">
@@ -27,6 +26,8 @@
 			</div>
 			{{clusters}}
 		</main>
+		<!-- <div class="maylike">{{maylike}}</div> -->
 		<div class="footer">{{footer}}</div>
+		<!--JS-INJECTION-ZONE-->
 	</body>
 </html>
