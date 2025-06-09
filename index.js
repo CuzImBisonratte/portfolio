@@ -264,7 +264,7 @@ async function build() {
             autoOrient: false,
         }]);
         sharpImage.toFile(thumbnailDest, (err, info) => {
-            if (err) log(`Error creating thumbnail for ${page.name}: ${err.message}`, 3);
+            if (err) log(`Error creating thumbnail for ${page.path}: ${err.message}`, 3);
             else {
                 log(`Thumbnail for ${page.path} created successfully: ${info.width}x${info.height}`, 1);
 
@@ -285,11 +285,13 @@ function validatePages() {
     log('Validating page configuration...');
     const pages = JSON.parse(fs.readFileSync(path.join(__dirname, 'pages.json'), 'utf8'));
     // Check wheter each page has a 'path' property
-    pages.forEach(page => {
-        if (!page.path) return [`Page configuration error: 'path' is required for page ${page.name}`, 3];
-        if (["css", "js"].includes(page.path)) return [`Page configuration error: 'path' cannot be 'css' or 'js' for page ${page.name}`, 3];
-        if (page.path.startsWith('/')) return [`Page configuration error: 'path' cannot start with '/' for page ${page.name}`, 3];
-    });
+    for (const page of pages) {
+        if (!page.path) return [`Page configuration error: 'path' is required for page ${page.path}`, 3];
+        if (["css", "js"].includes(page.path)) return [`Page configuration error: 'path' cannot be 'css' or 'js' for page ${page.path}`, 3];
+        if (page.path.startsWith('/')) return [`Page configuration error: 'path' cannot start with '/' for page ${page.path}`, 3];
+        if (!page.thumbnail || page.thumbnail == "" || !fs.existsSync(path.join(__dirname, 'images', page.thumbnail)))
+            return [`Page configuration error: 'thumbnail' is required and must exist for page ${page.path}`, 3];
+    }
     return true;
 }
 

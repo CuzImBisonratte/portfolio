@@ -1,0 +1,14 @@
+[
+	{
+		"path": "myCoolPage",
+		"title": "The Title",
+		"subtitle": "Date or something",
+		"displays": [
+			{
+				"type": "",
+				"images": []
+			}
+		],
+		"thumbnail": ""
+	}
+]
