@@ -108,6 +108,7 @@ async function build() {
         pageFile = fs.readFileSync(path.join(__dirname, 'res/templates/page.html'), 'utf8');
         pageFile = pageFile.replace(/{{title}}/g, page.title || 'Untitled Page');
         pageFile = pageFile.replace(/{{subtitle}}/g, page.subtitle || '');
+        pageFile = pageFile.replace(/{{footer}}/g, CONFIG.metadata.footer.replace(/{{year}}/g, new Date().getFullYear()) || '');
         pageFile = pageFile.replace(/<!--JS-INJECTION-ZONE-->/g, PREVIEWMODE ? '<script src="/js/preview-connection.js"></script>' : '');
         // Add images to the list
         clusters = [];
@@ -159,6 +160,7 @@ async function build() {
     const homePath = path.join(buildPath, 'index.html');
     homeHtml = fs.readFileSync(path.join(__dirname, 'res/templates/home.html'), 'utf8');
     homeHtml = homeHtml.replace(/{{title}}/g, CONFIG.metadata.title || 'Home');
+    homeHtml = homeHtml.replace(/{{footer}}/g, CONFIG.metadata.footer.replace(/{{year}}/g, new Date().getFullYear()) || '');
     homeHtml = homeHtml.replace(/<!--JS-INJECTION-ZONE-->/g, PREVIEWMODE ? '<script src="/js/preview-connection.js"></script>' : '');
     pageElements = "";
     pages.forEach(page => {
