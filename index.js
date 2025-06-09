@@ -110,6 +110,8 @@ async function build() {
         pageFile = pageFile.replace(/{{subtitle}}/g, page.subtitle || '');
         pageFile = pageFile.replace(/{{footer}}/g, CONFIG.metadata.footer.replace(/{{year}}/g, new Date().getFullYear()) || '');
         pageFile = pageFile.replace(/<!--JS-INJECTION-ZONE-->/g, PREVIEWMODE ? '<script src="/js/preview-connection.js"></script>' : '');
+        pageFile = pageFile.replace(/<!--NAV-LEFT-INJECTION-ZONE-->/g, CONFIG.nav.left.join(" "));
+        pageFile = pageFile.replace(/<!--NAV-RIGHT-INJECTION-ZONE-->/g, CONFIG.nav.right.join(" "));
         // Add images to the list
         clusters = [];
         if (page.displays && Array.isArray(page.displays)) {
@@ -157,10 +159,13 @@ async function build() {
     log('Build of pages completed');
 
     // Build home page
+    log('Building home page...');
     const homePath = path.join(buildPath, 'index.html');
     homeHtml = fs.readFileSync(path.join(__dirname, 'res/templates/home.html'), 'utf8');
     homeHtml = homeHtml.replace(/{{title}}/g, CONFIG.metadata.title || 'Home');
     homeHtml = homeHtml.replace(/{{footer}}/g, CONFIG.metadata.footer.replace(/{{year}}/g, new Date().getFullYear()) || '');
+    homeHtml = homeHtml.replace(/<!--NAV-LEFT-INJECTION-ZONE-->/g, CONFIG.nav.left.join(" "));
+    homeHtml = homeHtml.replace(/<!--NAV-RIGHT-INJECTION-ZONE-->/g, CONFIG.nav.right.join(" "));
     homeHtml = homeHtml.replace(/<!--JS-INJECTION-ZONE-->/g, PREVIEWMODE ? '<script src="/js/preview-connection.js"></script>' : '');
     pageElements = "";
     pages.forEach(page => {
