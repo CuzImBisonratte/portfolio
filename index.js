@@ -157,7 +157,7 @@ async function build() {
 
     // Image processing
     log('Processing images...');
-    success = [];
+    imgProcessingSuccessTracker = [];
     images.forEach(image => {
         // Load image
         sharpImage = sharp(path.join(__dirname, 'images', image.path));
@@ -203,19 +203,55 @@ async function build() {
                         log(`Error processing image ${image.path}: ${err.message}`, 3);
                     } else {
                         log(`Image ${image.path} processed as ${image.outputName}.webp (${info.width}x${info.height})`, 1);
-                        success.push(image);
+                        imgProcessingSuccessTracker.push(image);
 
                         // Check if all images are processed
-                        if (success.length === images.length) {
-                            log(`All ${success.length} images processed`);
-                            // If autoReload is enabled, broadcast reload to all clients
-                            PREVIEWMODE && setTimeout(broadcastReload, 100); // Delay to ensure all files are written
+                        if (imgProcessingSuccessTracker.length === images.length) {
+                            log(`All ${imgProcessingSuccessTracker.length} images processed`);
+                            if (imgProcessingSuccessTracker.length === images.length) // Check if all images are processed
+                                if (thumbnailProcessingSuccessTracker.length === pages.length) // Check if all thumbnails are processed
+                                    PREVIEWMODE && setTimeout(broadcastReload, 100); // Delay to ensure all files are written
                         }
                     }
                 }
             );
         }).catch(err => {
             log(`Error reading metadata for ${image.path}: ${err.message}`, 3);
+        });
+    });
+
+    // Thumbnail generation
+    log('Generating thumbnails...');
+    thumbnailProcessingSuccessTracker = [];
+    pages.forEach(async page => {
+        if (!page.path) return;
+        const pagePath = path.join(buildPath, page.path);
+        const thumbnailSrc = path.join(__dirname, 'images', page.thumbnail);
+        const thumbnailDest = path.join(pagePath, 'thumb.webp');
+        watermark = await sharp(faviconSrc)
+            .resize(90, 90)
+            .toBuffer();
+        sharpImage = sharp(thumbnailSrc)
+            .resize({ width: 1200, height: 900, fit: 'cover' });
+        if (CONFIG.watermark.thumbnails) sharpImage.composite([{
+            input: watermark,
+            gravity: CONFIG.watermark.position,
+            autoOrient: false,
+        }]);
+        sharpImage.toFile(thumbnailDest, (err, info) => {
+            if (err) log(`Error creating thumbnail for ${page.name}: ${err.message}`, 3);
+            else {
+                log(`Thumbnail for ${page.path} created successfully: ${info.width}x${info.height}`, 1);
+
+                thumbnailProcessingSuccessTracker.push(page);
+                // Check if all thumbnails are processed
+                if (thumbnailProcessingSuccessTracker.length === pages.length) {
+                    log(`All ${thumbnailProcessingSuccessTracker.length} thumbnails processed`);
+                    if (imgProcessingSuccessTracker.length === images.length) // Check if all images are processed
+                        if (thumbnailProcessingSuccessTracker.length === pages.length) // Check if all thumbnails are processed
+                            PREVIEWMODE && setTimeout(broadcastReload, 100); // Delay to ensure all files are written
+                }
+            }
         });
     });
 }
