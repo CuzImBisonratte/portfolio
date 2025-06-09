@@ -1,0 +1,26 @@
+{
+	"preview": {
+		"enabled": true,
+		"port": 8080,
+		"autoOpen": false
+	},
+	"watermark": {
+		"enabled": true,
+		"position": "southwest",
+		"size": 0.1,
+		"thumbnails": true
+	},
+	"imageRatios": {
+		"p": [2, 3],
+		"l": [3, 2],
+		"s": [1, 1]
+	},
+	"metadata": {
+		"title": "My nice Portfolio",
+		"footer": "<div>© {{year}} My Name"
+	},
+	"nav": {
+		"left": ["<a href='https://example.de/' target='_blank'>Homepage</a>"],
+		"right": ["<a href='https://example.com/#contact' target='_blank'>Contact</a>"]
+	}
+}
