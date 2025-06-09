@@ -1,13 +1,16 @@
 # Portfolio
 
-## Usage (License will be added soon)
-
 This is a static portfolio site builder using node.js
 
-### Folders
+## Getting started
 
-The following folders are needed:
+First clone the repository, then run:
 
--   images: Contains all images to be published
--   res: Contains resources used by the build process
--   src: All contents are copied to the build output
+```bash
+npm i
+cp config.example.json config.json
+cp pages.example.json pages.json
+node index.js
+```
+
+Then you will be led through the rest of the needed steps.
