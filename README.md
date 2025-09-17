@@ -20,6 +20,7 @@ Then you will be led through the rest of the needed steps.
 -   [ ] Add multiple _npm run_ modes
     -   [ ] start / dev (with file watcher - files not minified)
     -   [ ] build (files heavily minified)
+    -   [ ] delete-unused (deletes unused image files)
 -   [ ] Add possibility to only build certain parts of the site
 -   [ ] Add more documentation
 -   [ ] Add image customization options
@@ -29,3 +30,4 @@ Then you will be led through the rest of the needed steps.
         -   [ ] Position
         -   [ ] Size
         -   [ ] Icon
+-   [ ] Add better logo-customization options
